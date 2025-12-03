@@ -88,32 +88,37 @@ export const MixingConsole = () => {
       </header>
 
       {/* Console body */}
-      <div className="flex-1 flex gap-4 md:gap-6 overflow-x-auto pb-4">
-        {/* Mix Selector Panel */}
-        <div className="flex-shrink-0">
-          <MixSelector selectedMix={selectedMix} onSelectMix={setSelectedMix} />
-        </div>
+      <div className="flex-1 flex flex-col">
+        <div 
+          className="flex gap-4 md:gap-6 pb-2 overflow-x-auto scrollbar-vintage"
+          style={{ scrollbarWidth: 'thin' }}
+        >
+          {/* Mix Selector Panel */}
+          <div className="flex-shrink-0">
+            <MixSelector selectedMix={selectedMix} onSelectMix={setSelectedMix} />
+          </div>
 
-        {/* Channel strips */}
-        <div className="flex gap-1">
-          {currentMix.map((channel, index) => (
-            <ChannelStrip
-              key={index}
-              channelNumber={index + 1}
-              name={channel.name}
-              faderValue={channel.faderValue}
-              panValue={channel.panValue}
-              isMuted={channel.isMuted}
-              onFaderChange={(value) =>
-                updateChannel(index, { faderValue: value })
-              }
-              onPanChange={(value) => updateChannel(index, { panValue: value })}
-              onMuteToggle={() =>
-                updateChannel(index, { isMuted: !channel.isMuted })
-              }
-              onNameChange={(name) => updateChannel(index, { name })}
-            />
-          ))}
+          {/* Channel strips */}
+          <div className="flex gap-1">
+            {currentMix.map((channel, index) => (
+              <ChannelStrip
+                key={index}
+                channelNumber={index + 1}
+                name={channel.name}
+                faderValue={channel.faderValue}
+                panValue={channel.panValue}
+                isMuted={channel.isMuted}
+                onFaderChange={(value) =>
+                  updateChannel(index, { faderValue: value })
+                }
+                onPanChange={(value) => updateChannel(index, { panValue: value })}
+                onMuteToggle={() =>
+                  updateChannel(index, { isMuted: !channel.isMuted })
+                }
+                onNameChange={(name) => updateChannel(index, { name })}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
