@@ -112,16 +112,6 @@ export const Fader = ({ value, onChange }: FaderProps) => {
           }}
         />
 
-        {/* Unity gain mark (0dB) - SSL yellow/amber line */}
-        <div 
-          className="absolute left-1 right-1 h-[2px] rounded-full"
-          style={{ 
-            top: `${100 - 77}%`,
-            background: 'hsl(45 100% 50%)',
-            boxShadow: '0 0 4px hsl(45 100% 50% / 0.5)'
-          }}
-        />
-
         {/* Minor tick marks on track */}
         {[92, 85, 70, 62, 55, 40, 32, 22, 12].map((pos) => (
           <div
