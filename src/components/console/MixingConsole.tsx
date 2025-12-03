@@ -12,15 +12,15 @@ interface ChannelState {
 type MixState = ChannelState[];
 
 const defaultChannelNames = [
-  "Kick",
-  "Snare",
-  "HiHat",
-  "Toms",
-  "Bass",
-  "Gtr L",
-  "Gtr R",
-  "Keys",
-  "Vox",
+  "KICK",
+  "SNARE",
+  "HIHAT",
+  "TOMS",
+  "BASS",
+  "GTR L",
+  "GTR R",
+  "KEYS",
+  "VOX",
   "BGV",
 ];
 
@@ -57,26 +57,32 @@ export const MixingConsole = () => {
   };
 
   return (
-    <div className="min-h-screen console-wood p-6 flex flex-col">
-      {/* Header */}
-      <header className="text-center mb-6">
-        <h1 className="text-2xl font-mono font-bold text-console-amber text-glow-amber tracking-wider">
-          CUE MONITOR SYSTEM
-        </h1>
-        <p className="text-xs font-mono text-muted-foreground mt-1 tracking-widest uppercase">
-          Personal Monitor Mixing Console
-        </p>
+    <div className="min-h-screen console-wood p-8 flex flex-col">
+      {/* Header - Vintage nameplate style */}
+      <header className="text-center mb-8">
+        <div className="inline-block console-panel px-8 py-4 vintage-border">
+          <h1 className="text-4xl font-display text-console-amber text-glow-amber tracking-[0.3em]">
+            CUE MONITOR SYSTEM
+          </h1>
+          <div className="flex items-center justify-center gap-4 mt-2">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-console-brass to-transparent" />
+            <p className="text-xs font-mono text-console-beige tracking-[0.2em] uppercase">
+              Personal Monitor Console • Series 400
+            </p>
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-console-brass to-transparent" />
+          </div>
+        </div>
       </header>
 
       {/* Console body */}
-      <div className="flex-1 flex gap-4 overflow-x-auto pb-4">
+      <div className="flex-1 flex gap-6 overflow-x-auto pb-4">
         {/* Mix Selector Panel */}
         <div className="flex-shrink-0">
           <MixSelector selectedMix={selectedMix} onSelectMix={setSelectedMix} />
         </div>
 
         {/* Channel strips */}
-        <div className="flex gap-1">
+        <div className="flex gap-1.5">
           {currentMix.map((channel, index) => (
             <ChannelStrip
               key={index}
@@ -98,12 +104,18 @@ export const MixingConsole = () => {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="text-center mt-4">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded console-metal border border-console-metal-light/20">
-          <div className="w-2 h-2 rounded-full bg-console-amber animate-glow-pulse" />
-          <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">
-            System Active
+      {/* Footer - Vintage badge style */}
+      <footer className="text-center mt-6">
+        <div className="inline-flex items-center gap-4 px-6 py-3 console-panel vintage-border">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-console-green led-indicator animate-glow-pulse" />
+            <span className="text-[11px] font-display text-console-beige tracking-[0.15em] uppercase">
+              Power
+            </span>
+          </div>
+          <div className="w-px h-4 bg-console-brass/30" />
+          <span className="text-[10px] font-mono text-console-beige/70 tracking-wider">
+            48V PHANTOM • ACTIVE
           </span>
         </div>
       </footer>

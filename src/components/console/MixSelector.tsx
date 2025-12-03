@@ -3,42 +3,64 @@ interface MixSelectorProps {
   onSelectMix: (mix: number) => void;
 }
 
-const mixNames = ["Mix A", "Mix B", "Mix C", "Mix D"];
-
 export const MixSelector = ({ selectedMix, onSelectMix }: MixSelectorProps) => {
+  const mixes = [
+    { id: 0, name: "MIX A", label: "DRUMS" },
+    { id: 1, name: "MIX B", label: "BASS" },
+    { id: 2, name: "MIX C", label: "GUITAR" },
+    { id: 3, name: "MIX D", label: "VOCAL" },
+  ];
+
   return (
-    <div className="flex flex-col gap-3 p-4 console-metal rounded border border-console-metal-light/20">
-      {/* Header */}
-      <div className="text-center">
-        <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">
-          Select Mix
-        </div>
-        <div className="text-sm font-mono font-semibold text-console-amber text-glow-amber">
-          {mixNames[selectedMix]}
-        </div>
+    <div className="flex flex-col gap-3 p-4 console-panel vintage-border h-fit relative">
+      {/* Corner screws */}
+      <div className="absolute top-2 left-2 w-2.5 h-2.5 rounded-full screw" />
+      <div className="absolute top-2 right-2 w-2.5 h-2.5 rounded-full screw" />
+      <div className="absolute bottom-2 left-2 w-2.5 h-2.5 rounded-full screw" />
+      <div className="absolute bottom-2 right-2 w-2.5 h-2.5 rounded-full screw" />
+
+      {/* Section label */}
+      <div className="text-center mb-2 pt-2">
+        <span className="text-sm font-display tracking-[0.2em] embossed-text">
+          CUE SELECT
+        </span>
       </div>
 
       {/* Mix buttons */}
-      <div className="grid grid-cols-2 gap-2">
-        {mixNames.map((name, index) => (
+      <div className="flex flex-col gap-3">
+        {mixes.map((mix) => (
           <button
-            key={index}
-            onClick={() => onSelectMix(index)}
-            className={`px-3 py-2 rounded-sm font-mono text-xs font-semibold uppercase tracking-wide transition-all duration-150 ${
-              selectedMix === index
-                ? "mix-button-active text-primary-foreground"
-                : "mix-button text-muted-foreground hover:text-foreground"
+            key={mix.id}
+            onClick={() => onSelectMix(mix.id)}
+            className={`relative px-4 py-3 rounded-sm font-display text-sm tracking-[0.15em] transition-all duration-150 ${
+              selectedMix === mix.id
+                ? "mix-button-active text-background"
+                : "mix-button text-console-beige hover:text-foreground"
             }`}
           >
-            {name}
+            <div className="flex flex-col items-center gap-0.5">
+              <span className="text-base">{mix.name}</span>
+              <span className="text-[9px] font-mono tracking-wider opacity-70">
+                {mix.label}
+              </span>
+            </div>
+            
+            {/* LED indicator */}
+            {selectedMix === mix.id && (
+              <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-console-green led-indicator animate-glow-pulse" />
+            )}
           </button>
         ))}
       </div>
 
-      {/* Decorative screws */}
-      <div className="flex justify-between px-1 mt-2">
-        <div className="w-2 h-2 rounded-full screw" />
-        <div className="w-2 h-2 rounded-full screw" />
+      {/* Decorative line */}
+      <div className="mt-2 h-px bg-gradient-to-r from-transparent via-console-brass/50 to-transparent" />
+      
+      {/* Model number */}
+      <div className="text-center">
+        <span className="text-[8px] font-mono text-console-beige/50 tracking-widest">
+          MODEL PM-400
+        </span>
       </div>
     </div>
   );

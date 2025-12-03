@@ -14,8 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
+        sans: ['IBM Plex Mono', 'monospace'],
+        mono: ['IBM Plex Mono', 'monospace'],
+        display: ['Bebas Neue', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -53,6 +54,7 @@ export default {
         },
         console: {
           wood: "hsl(var(--console-wood))",
+          "wood-light": "hsl(var(--console-wood-light))",
           metal: "hsl(var(--console-metal))",
           "metal-light": "hsl(var(--console-metal-light))",
           "metal-dark": "hsl(var(--console-metal-dark))",
@@ -61,7 +63,12 @@ export default {
           red: "hsl(var(--console-red))",
           "red-glow": "hsl(var(--console-red-glow))",
           cream: "hsl(var(--console-cream))",
+          beige: "hsl(var(--console-beige))",
           groove: "hsl(var(--console-groove))",
+          bakelite: "hsl(var(--console-bakelite))",
+          brass: "hsl(var(--console-brass))",
+          green: "hsl(var(--console-green))",
+          "green-glow": "hsl(var(--console-green-glow))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
