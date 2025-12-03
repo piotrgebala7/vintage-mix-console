@@ -1,0 +1,84 @@
+{
+    "3ch": [
+        [
+            {
+                "name": "CH 1",
+                "faderValue": 70,
+                "panValue": 50,
+                "isMuted": false
+            },
+            {
+                "name": "CH 2",
+                "faderValue": 70,
+                "panValue": 50,
+                "isMuted": false
+            },
+            {
+                "name": "CH 3",
+                "faderValue": 70,
+                "panValue": 50,
+                "isMuted": false
+            }
+        ],
+        [
+            {
+                "name": "CH 1",
+                "faderValue": 70,
+                "panValue": 50,
+                "isMuted": false
+            },
+            {
+                "name": "CH 2",
+                "faderValue": 70,
+                "panValue": 50,
+                "isMuted": false
+            },
+            {
+                "name": "CH 3",
+                "faderValue": 70,
+                "panValue": 50,
+                "isMuted": false
+            }
+        ],
+        [
+            {
+                "name": "CH 1",
+                "faderValue": 70,
+                "panValue": 50,
+                "isMuted": false
+            },
+            {
+                "name": "CH 2",
+                "faderValue": 70,
+                "panValue": 50,
+                "isMuted": false
+            },
+            {
+                "name": "CH 3",
+                "faderValue": 70,
+                "panValue": 50,
+                "isMuted": false
+            }
+        ],
+        [
+            {
+                "name": "CH 1",
+                "faderValue": 70,
+                "panValue": 50,
+                "isMuted": false
+            },
+            {
+                "name": "CH 2",
+                "faderValue": 70,
+                "panValue": 50,
+                "isMuted": false
+            },
+            {
+                "name": "CH 3",
+                "faderValue": 70,
+                "panValue": 50,
+                "isMuted": false
+            }
+        ]
+    ]
+}

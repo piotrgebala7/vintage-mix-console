@@ -1,38 +1,27 @@
+import { cn } from "@/lib/utils";
+
 interface MuteButtonProps {
   isMuted: boolean;
   onToggle: () => void;
 }
 
-export const MuteButton = ({ isMuted, onToggle }: MuteButtonProps) => {
+const MuteButton = ({ isMuted, onToggle }: MuteButtonProps) => {
   return (
-    <div className="flex flex-col items-center gap-1">
-      <span className="text-[8px] font-display tracking-[0.15em] embossed-text font-bold">MUTE</span>
-      <button
-        onClick={onToggle}
-        className={`w-12 h-8 rounded-[3px] font-display text-xs tracking-wider transition-all duration-100 relative overflow-hidden ${
-          isMuted
-            ? "mute-button-active text-white"
-            : "mute-button text-console-beige/70 hover:text-console-beige"
-        }`}
-      >
-        {/* Button surface texture */}
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent" />
-        </div>
-        
-        <span className={`relative z-10 font-bold ${isMuted ? 'text-glow-red' : ''}`}>
-          {isMuted ? "ON" : "OFF"}
-        </span>
-        
-        {/* Pulsing glow effect when active */}
-        {isMuted && (
-          <>
-            <div className="absolute inset-0 bg-console-red/20 animate-pulse" style={{ animationDuration: '0.8s' }} />
-            {/* Inner highlight */}
-            <div className="absolute inset-x-2 top-1 h-1 bg-gradient-to-b from-red-300/40 to-transparent rounded-full" />
-          </>
-        )}
-      </button>
-    </div>
+    <button
+      onClick={onToggle}
+      className={cn(
+        "w-10 h-8 rounded shadow-sm flex items-center justify-center text-[10px] font-bold transition-all duration-100 relative overflow-hidden border-b-2 active:border-b-0 active:translate-y-[2px]",
+        isMuted
+          ? "bg-red-700 border-red-900 text-red-100 shadow-[inset_0_2px_6px_rgba(0,0,0,0.4)]"
+          : "bg-[#dcdcdc] border-[#a0a0a0] text-gray-600 hover:bg-gray-100"
+      )}
+    >
+      {isMuted && (
+        <div className="absolute inset-0 bg-red-500/20 animate-pulse pointer-events-none" />
+      )}
+      <span className="relative z-10">MUTE</span>
+    </button>
   );
 };
+
+export default MuteButton;

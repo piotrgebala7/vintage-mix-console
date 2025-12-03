@@ -12,29 +12,31 @@ export const MixSelector = ({ selectedMix, onSelectMix }: MixSelectorProps) => {
   ];
 
   return (
-    <div className="flex flex-col gap-3 p-5 console-panel vintage-border h-fit relative">
+    // Changed p-5 to p-3 to reduce height, gap-3 to gap-2
+    <div className="flex flex-col gap-2 p-3 md:p-5 console-panel vintage-border h-fit relative">
       {/* Corner screws */}
-      <div className="absolute top-2.5 left-2.5 w-3 h-3 rounded-full screw" />
-      <div className="absolute top-2.5 right-2.5 w-3 h-3 rounded-full screw" />
-      <div className="absolute bottom-2.5 left-2.5 w-3 h-3 rounded-full screw" />
-      <div className="absolute bottom-2.5 right-2.5 w-3 h-3 rounded-full screw" />
+      <div className="absolute top-1.5 left-1.5 w-2.5 h-2.5 rounded-full screw" />
+      <div className="absolute top-1.5 right-1.5 w-2.5 h-2.5 rounded-full screw" />
+      <div className="absolute bottom-1.5 left-1.5 w-2.5 h-2.5 rounded-full screw" />
+      <div className="absolute bottom-1.5 right-1.5 w-2.5 h-2.5 rounded-full screw" />
 
-      {/* Section label - engraved nameplate */}
-      <div className="text-center mb-3 pt-2">
-        <div className="inline-block px-4 py-1.5 bg-console-metal-dark/40 rounded-sm border border-console-bakelite/60">
-          <span className="text-sm font-display tracking-[0.25em] embossed-text">
+      {/* Section label */}
+      <div className="text-center mb-2 pt-1">
+        <div className="inline-block px-3 py-1 bg-console-metal-dark/40 rounded-sm border border-console-bakelite/60">
+          <span className="text-xs md:text-sm font-display tracking-[0.25em] embossed-text">
             CUE SELECT
           </span>
         </div>
       </div>
 
       {/* Mix buttons */}
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-2"> {/* Reduced gap */}
         {mixes.map((mix) => (
           <button
             key={mix.id}
             onClick={() => onSelectMix(mix.id)}
-            className={`relative px-5 py-3.5 rounded-[3px] font-display text-sm tracking-[0.15em] transition-all duration-100 ${
+            // Reduced padding y (py-2.5) to make buttons shorter
+            className={`relative px-4 py-2.5 md:px-5 md:py-3.5 rounded-[3px] font-display text-sm tracking-[0.15em] transition-all duration-100 ${
               selectedMix === mix.id
                 ? "mix-button-active text-white"
                 : "mix-button text-console-beige hover:text-foreground"
@@ -45,38 +47,38 @@ export const MixSelector = ({ selectedMix, onSelectMix }: MixSelectorProps) => {
               <div className="absolute inset-0 bg-gradient-to-b from-white/8 to-transparent" />
             </div>
 
-            <div className="relative flex flex-col items-center gap-1">
-              <span className={`text-base font-bold ${selectedMix === mix.id ? 'text-glow-green' : ''}`}>
+            <div className="relative flex flex-col items-center gap-0.5 md:gap-1">
+              <span className={`text-sm md:text-base font-bold ${selectedMix === mix.id ? 'text-glow-green' : ''}`}>
                 {mix.name}
               </span>
-              <span className="text-[9px] font-mono tracking-wider opacity-75">
+              <span className="text-[8px] md:text-[9px] font-mono tracking-wider opacity-75">
                 {mix.label}
               </span>
             </div>
-            
+
             {/* LED indicator */}
             {selectedMix === mix.id && (
-              <div 
-                className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-console-green led-indicator animate-pulse"
+              <div
+                className="absolute -top-1 -right-1 w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-console-green led-indicator animate-pulse"
                 style={{ animationDuration: '1.5s' }}
               />
             )}
 
             {/* Inner glow when active */}
             {selectedMix === mix.id && (
-              <div className="absolute inset-x-3 top-1.5 h-1 bg-gradient-to-b from-green-300/30 to-transparent rounded-full" />
+              <div className="absolute inset-x-3 top-1 h-0.5 bg-gradient-to-b from-green-300/30 to-transparent rounded-full" />
             )}
           </button>
         ))}
       </div>
 
       {/* Decorative brass trim */}
-      <div className="mt-3 h-[2px] brass-trim rounded-full" />
-      
+      <div className="mt-2 md:mt-3 h-[2px] brass-trim rounded-full" />
+
       {/* Model badge */}
-      <div className="text-center mt-1">
-        <div className="inline-block px-3 py-1 bg-console-bakelite/50 rounded-sm">
-          <span className="text-[9px] font-mono text-console-brass tracking-[0.2em]">
+      <div className="text-center mt-0.5 md:mt-1">
+        <div className="inline-block px-2 py-0.5 md:px-3 md:py-1 bg-console-bakelite/50 rounded-sm">
+          <span className="text-[8px] md:text-[9px] font-mono text-console-brass tracking-[0.2em]">
             MODEL PM-400
           </span>
         </div>

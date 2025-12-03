@@ -1,6 +1,7 @@
-import { Fader } from "./Fader";
-import { PanKnob } from "./PanKnob";
-import { MuteButton } from "./MuteButton";
+import { useRef } from "react";
+import Fader from "./Fader";
+import PanKnob from "./PanKnob";
+import MuteButton from "./MuteButton";
 
 interface ChannelStripProps {
   channelNumber: number;
@@ -25,52 +26,60 @@ export const ChannelStrip = ({
   onMuteToggle,
   onNameChange,
 }: ChannelStripProps) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Simple mobile detection
+  const isMobile = typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
   return (
-    <div className="flex flex-col items-center gap-3 p-3 console-channel rounded-sm vintage-border relative">
-      {/* Screws at corners */}
-      <div className="absolute top-1.5 left-1.5 w-2.5 h-2.5 rounded-full screw" />
-      <div className="absolute top-1.5 right-1.5 w-2.5 h-2.5 rounded-full screw" />
-      <div className="absolute bottom-1.5 left-1.5 w-2.5 h-2.5 rounded-full screw" />
-      <div className="absolute bottom-1.5 right-1.5 w-2.5 h-2.5 rounded-full screw" />
+    <div className="w-24 md:w-28 flex-shrink-0 flex flex-col console-channel border-r border-black/20 relative group">
+      {/* Top Screw */}
+      <div className="absolute top-2 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full screw" />
 
-      {/* Channel number - embossed nameplate style */}
-      <div className="px-3 py-1 bg-console-metal-dark/30 rounded-sm border border-console-bakelite/50 mt-2">
-        <span className="text-sm font-display tracking-[0.2em] embossed-text">
-          CH {channelNumber.toString().padStart(2, "0")}
+      <div className="pt-5 pb-1 px-1 flex flex-col items-center gap-2 flex-1">
+        {/* Channel Number */}
+        <span className="text-[10px] font-mono text-console-beige/50 font-bold">
+          CH {channelNumber.toString().padStart(2, '0')}
         </span>
-      </div>
 
-      {/* Pan knob */}
-      <PanKnob value={panValue} onChange={onPanChange} />
-
-      {/* Mute button */}
-      <MuteButton isMuted={isMuted} onToggle={onMuteToggle} />
-
-      {/* Fader */}
-      <Fader value={faderValue} onChange={onFaderChange} />
-
-      {/* Channel name - vintage embossed label style */}
-      <div className="w-full px-1">
-        <div className="relative">
-          {/* Dark embossed label background */}
-          <div 
-            className="absolute inset-0 bg-gradient-to-b from-console-bakelite to-console-groove rounded-[2px]"
-            style={{
-              boxShadow: 'inset 0 2px 4px hsl(0 0% 0% / 0.5), 0 1px 0 hsl(35 15% 25% / 0.3)'
-            }}
-          />
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => onNameChange(e.target.value)}
-            className="relative w-full px-2 py-1.5 text-[10px] font-mono text-center bg-transparent text-console-amber font-semibold border-none focus:outline-none focus:ring-1 focus:ring-console-amber channel-label tracking-wider"
-            style={{
-              textShadow: '0 0 8px hsl(32 90% 48% / 0.6)',
-            }}
-            maxLength={8}
-          />
+        {/* Pan Knob */}
+        <div className="flex flex-col items-center gap-1 pt-1">
+          <span className="text-[8px] uppercase tracking-widest text-console-beige/70 font-semibold">Pan</span>
+          <PanKnob value={panValue} onChange={onPanChange} />
         </div>
+
+        {/* Mute Button */}
+        <div className="py-1">
+          <MuteButton isMuted={isMuted} onToggle={onMuteToggle} />
+        </div>
+
+        {/* Scribble Strip - Clean & Simple */}
+        <div className="w-full px-3 pt-2">
+          <div className="relative h-7 flex items-center justify-center bg-[#e0e0e0] rounded-[2px] shadow-[inset_0_1px_2px_rgba(0,0,0,0.2)] border border-gray-400/50">
+            <input
+              ref={inputRef}
+              type="text"
+              value={name}
+              readOnly={isMobile}
+              onChange={(e) => onNameChange(e.target.value)}
+              className="w-full bg-transparent text-center font-sans text-gray-900 text-xs font-bold uppercase tracking-wide outline-none px-1"
+              maxLength={10}
+              spellCheck={false}
+            />
+          </div>
+        </div>
+
+        {/* Fader */}
+        <div className="flex-1 w-full flex justify-center pb-1">
+          <Fader value={faderValue} onChange={onFaderChange} />
+        </div>
+
       </div>
+
+      {/* Bottom Screw */}
+      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full screw" />
     </div>
   );
 };
+
+export default ChannelStrip;
