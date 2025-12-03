@@ -26,16 +26,16 @@ export const ChannelStrip = ({
   onNameChange,
 }: ChannelStripProps) => {
   return (
-    <div className="flex flex-col items-center gap-3 p-3 console-metal rounded border border-console-metal-light/20">
-      {/* Screws at top */}
-      <div className="flex justify-between w-full px-1">
-        <div className="w-2 h-2 rounded-full screw" />
-        <div className="w-2 h-2 rounded-full screw" />
-      </div>
+    <div className="flex flex-col items-center gap-3 p-3 console-channel rounded-sm vintage-border relative">
+      {/* Screws at corners */}
+      <div className="absolute top-1.5 left-1.5 w-2.5 h-2.5 rounded-full screw" />
+      <div className="absolute top-1.5 right-1.5 w-2.5 h-2.5 rounded-full screw" />
+      <div className="absolute bottom-1.5 left-1.5 w-2.5 h-2.5 rounded-full screw" />
+      <div className="absolute bottom-1.5 right-1.5 w-2.5 h-2.5 rounded-full screw" />
 
-      {/* Channel number */}
-      <div className="text-[10px] font-mono font-semibold text-console-amber">
-        {channelNumber.toString().padStart(2, "0")}
+      {/* Channel number - embossed style */}
+      <div className="text-sm font-display tracking-widest embossed-text mt-2">
+        CH {channelNumber.toString().padStart(2, "0")}
       </div>
 
       {/* Pan knob */}
@@ -47,14 +47,19 @@ export const ChannelStrip = ({
       {/* Fader */}
       <Fader value={faderValue} onChange={onFaderChange} />
 
-      {/* Channel name input */}
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => onNameChange(e.target.value)}
-        className="w-full px-1 py-0.5 text-[10px] font-mono text-center bg-console-groove text-console-cream border border-console-metal-dark rounded-sm focus:outline-none focus:ring-1 focus:ring-console-amber channel-label"
-        maxLength={8}
-      />
+      {/* Channel name - vintage label tape style */}
+      <div className="w-full px-1">
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => onNameChange(e.target.value)}
+          className="w-full px-2 py-1 text-[10px] font-mono text-center bg-console-groove text-console-amber border-2 border-console-bakelite rounded-none focus:outline-none focus:border-console-amber channel-label tracking-wider"
+          style={{
+            textShadow: '0 0 8px hsl(38 85% 52% / 0.5)',
+          }}
+          maxLength={8}
+        />
+      </div>
     </div>
   );
 };

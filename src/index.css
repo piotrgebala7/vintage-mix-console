@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600;700&family=Bebas+Neue&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,57 +6,63 @@
 
 @layer base {
   :root {
-    /* Vintage console palette */
-    --background: 20 10% 8%;
-    --foreground: 40 20% 90%;
+    /* Vintage 70s console palette */
+    --background: 30 20% 6%;
+    --foreground: 45 25% 88%;
 
-    --card: 20 8% 12%;
-    --card-foreground: 40 20% 90%;
+    --card: 28 18% 14%;
+    --card-foreground: 45 25% 88%;
 
-    --popover: 20 8% 12%;
-    --popover-foreground: 40 20% 90%;
+    --popover: 28 18% 14%;
+    --popover-foreground: 45 25% 88%;
 
-    --primary: 35 90% 55%;
-    --primary-foreground: 20 10% 8%;
+    --primary: 38 85% 52%;
+    --primary-foreground: 30 20% 6%;
 
-    --secondary: 220 8% 25%;
-    --secondary-foreground: 40 20% 90%;
+    --secondary: 35 12% 22%;
+    --secondary-foreground: 45 25% 88%;
 
-    --muted: 20 5% 18%;
-    --muted-foreground: 40 10% 55%;
+    --muted: 30 10% 20%;
+    --muted-foreground: 40 15% 50%;
 
-    --accent: 35 80% 50%;
-    --accent-foreground: 20 10% 8%;
+    --accent: 38 80% 48%;
+    --accent-foreground: 30 20% 6%;
 
-    --destructive: 0 70% 50%;
+    --destructive: 0 65% 48%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 20 5% 20%;
-    --input: 20 5% 20%;
-    --ring: 35 90% 55%;
+    --border: 30 12% 18%;
+    --input: 30 12% 18%;
+    --ring: 38 85% 52%;
 
-    --radius: 0.25rem;
+    --radius: 0.125rem;
 
-    /* Custom console colors */
-    --console-wood: 25 30% 12%;
-    --console-metal: 220 5% 30%;
-    --console-metal-light: 220 5% 40%;
-    --console-metal-dark: 220 5% 20%;
-    --console-amber: 35 90% 55%;
-    --console-amber-glow: 35 100% 60%;
-    --console-red: 0 70% 50%;
-    --console-red-glow: 0 80% 55%;
-    --console-cream: 40 30% 85%;
-    --console-groove: 20 5% 8%;
+    /* Vintage console colors */
+    --console-wood: 28 35% 10%;
+    --console-wood-light: 28 30% 18%;
+    --console-metal: 40 8% 35%;
+    --console-metal-light: 40 10% 48%;
+    --console-metal-dark: 40 6% 22%;
+    --console-amber: 38 85% 52%;
+    --console-amber-glow: 38 95% 58%;
+    --console-red: 0 65% 48%;
+    --console-red-glow: 0 75% 55%;
+    --console-cream: 45 35% 82%;
+    --console-beige: 40 25% 75%;
+    --console-groove: 30 15% 8%;
+    --console-bakelite: 25 20% 15%;
+    --console-brass: 42 50% 45%;
+    --console-green: 120 35% 35%;
+    --console-green-glow: 120 45% 45%;
 
-    --sidebar-background: 20 10% 8%;
-    --sidebar-foreground: 40 20% 90%;
-    --sidebar-primary: 35 90% 55%;
-    --sidebar-primary-foreground: 20 10% 8%;
-    --sidebar-accent: 20 5% 18%;
-    --sidebar-accent-foreground: 40 20% 90%;
-    --sidebar-border: 20 5% 20%;
-    --sidebar-ring: 35 90% 55%;
+    --sidebar-background: 30 20% 6%;
+    --sidebar-foreground: 45 25% 88%;
+    --sidebar-primary: 38 85% 52%;
+    --sidebar-primary-foreground: 30 20% 6%;
+    --sidebar-accent: 30 10% 20%;
+    --sidebar-accent-foreground: 45 25% 88%;
+    --sidebar-border: 30 12% 18%;
+    --sidebar-ring: 38 85% 52%;
   }
 }
 
@@ -66,140 +72,248 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
-    font-family: 'Inter', sans-serif;
+    @apply bg-background text-foreground;
+    font-family: 'IBM Plex Mono', monospace;
   }
 }
 
 @layer components {
   .console-wood {
     background: 
-      linear-gradient(90deg, 
-        hsl(25 30% 10% / 0.5) 0%, 
-        hsl(25 30% 14% / 0.3) 50%, 
-        hsl(25 30% 10% / 0.5) 100%
-      ),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.02' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E"),
       repeating-linear-gradient(
-        90deg,
-        hsl(25 25% 12%) 0px,
-        hsl(25 20% 10%) 2px,
-        hsl(25 25% 13%) 4px
+        92deg,
+        hsl(28 35% 8%) 0px,
+        hsl(25 30% 12%) 1px,
+        hsl(28 28% 10%) 2px,
+        hsl(30 25% 11%) 4px,
+        hsl(25 32% 9%) 6px
+      ),
+      linear-gradient(
+        180deg,
+        hsl(28 30% 12%) 0%,
+        hsl(25 28% 8%) 50%,
+        hsl(28 32% 10%) 100%
       );
+    box-shadow: inset 0 0 100px hsl(0 0% 0% / 0.5);
   }
 
-  .console-metal {
-    background: linear-gradient(
-      180deg,
-      hsl(var(--console-metal-light)) 0%,
-      hsl(var(--console-metal)) 20%,
-      hsl(var(--console-metal-dark)) 80%,
-      hsl(var(--console-metal)) 100%
-    );
+  .console-panel {
+    background: 
+      linear-gradient(
+        180deg,
+        hsl(40 12% 32%) 0%,
+        hsl(40 10% 28%) 2%,
+        hsl(40 8% 24%) 50%,
+        hsl(40 10% 22%) 98%,
+        hsl(40 8% 18%) 100%
+      );
+    box-shadow: 
+      inset 0 1px 0 hsl(40 15% 40%),
+      inset 0 -1px 0 hsl(40 5% 15%),
+      0 4px 12px hsl(0 0% 0% / 0.4);
+  }
+
+  .console-channel {
+    background: 
+      linear-gradient(
+        180deg,
+        hsl(45 20% 78%) 0%,
+        hsl(42 18% 72%) 3%,
+        hsl(40 15% 68%) 50%,
+        hsl(42 18% 65%) 97%,
+        hsl(40 12% 58%) 100%
+      );
+    box-shadow: 
+      inset 0 1px 0 hsl(45 25% 85%),
+      inset 0 -1px 0 hsl(40 10% 50%),
+      0 2px 8px hsl(0 0% 0% / 0.3);
   }
 
   .fader-groove {
-    background: linear-gradient(
-      90deg,
-      hsl(var(--console-groove)) 0%,
-      hsl(20 5% 12%) 50%,
-      hsl(var(--console-groove)) 100%
-    );
-    box-shadow: inset 0 2px 4px hsl(0 0% 0% / 0.5);
+    background: 
+      linear-gradient(
+        90deg,
+        hsl(30 15% 6%) 0%,
+        hsl(30 12% 10%) 20%,
+        hsl(30 10% 8%) 80%,
+        hsl(30 15% 6%) 100%
+      );
+    box-shadow: 
+      inset 0 3px 6px hsl(0 0% 0% / 0.7),
+      inset 0 0 1px hsl(0 0% 0%);
   }
 
   .fader-handle {
-    background: linear-gradient(
-      180deg,
-      hsl(220 5% 55%) 0%,
-      hsl(220 5% 35%) 50%,
-      hsl(220 5% 45%) 100%
-    );
+    background: 
+      linear-gradient(
+        180deg,
+        hsl(45 15% 70%) 0%,
+        hsl(42 12% 55%) 10%,
+        hsl(40 10% 45%) 50%,
+        hsl(42 12% 50%) 90%,
+        hsl(45 15% 60%) 100%
+      );
     box-shadow: 
-      0 1px 0 hsl(220 5% 60%),
-      0 -1px 0 hsl(220 5% 25%),
-      0 4px 8px hsl(0 0% 0% / 0.4);
+      0 1px 0 hsl(45 20% 75%),
+      0 -1px 0 hsl(40 8% 35%),
+      0 4px 8px hsl(0 0% 0% / 0.5),
+      inset 0 0 8px hsl(45 15% 65% / 0.3);
   }
 
   .knob {
-    background: linear-gradient(
-      135deg,
-      hsl(220 5% 50%) 0%,
-      hsl(220 5% 30%) 50%,
-      hsl(220 5% 40%) 100%
-    );
+    background: 
+      radial-gradient(
+        circle at 30% 25%,
+        hsl(40 12% 50%) 0%,
+        hsl(40 10% 35%) 40%,
+        hsl(40 8% 28%) 100%
+      );
     box-shadow: 
-      0 2px 4px hsl(0 0% 0% / 0.5),
-      inset 0 1px 0 hsl(220 5% 60%);
+      0 3px 6px hsl(0 0% 0% / 0.6),
+      inset 0 1px 1px hsl(40 15% 60%),
+      inset 0 -1px 1px hsl(40 5% 20%);
   }
 
   .knob-indicator {
     background: hsl(var(--console-cream));
-    box-shadow: 0 0 4px hsl(var(--console-cream) / 0.5);
+    box-shadow: 0 0 3px hsl(var(--console-cream) / 0.8);
   }
 
   .mute-button {
-    background: linear-gradient(
-      180deg,
-      hsl(220 5% 25%) 0%,
-      hsl(220 5% 15%) 100%
-    );
+    background: 
+      linear-gradient(
+        180deg,
+        hsl(25 15% 25%) 0%,
+        hsl(25 12% 18%) 50%,
+        hsl(25 15% 15%) 100%
+      );
     box-shadow: 
-      inset 0 1px 0 hsl(220 5% 35%),
-      0 2px 4px hsl(0 0% 0% / 0.4);
+      inset 0 1px 0 hsl(25 12% 32%),
+      inset 0 -1px 0 hsl(25 8% 10%),
+      0 2px 4px hsl(0 0% 0% / 0.5);
+    border: 1px solid hsl(25 10% 12%);
   }
 
   .mute-button-active {
-    background: linear-gradient(
-      180deg,
-      hsl(var(--console-red)) 0%,
-      hsl(0 70% 40%) 100%
-    );
+    background: 
+      radial-gradient(
+        ellipse at center,
+        hsl(0 70% 55%) 0%,
+        hsl(0 65% 45%) 60%,
+        hsl(0 60% 38%) 100%
+      );
     box-shadow: 
-      0 0 12px hsl(var(--console-red-glow)),
-      inset 0 1px 0 hsl(0 70% 65%);
+      0 0 15px hsl(var(--console-red-glow)),
+      0 0 30px hsl(var(--console-red-glow) / 0.4),
+      inset 0 1px 1px hsl(0 80% 70%);
+    border: 1px solid hsl(0 50% 30%);
   }
 
   .mix-button {
-    background: linear-gradient(
-      180deg,
-      hsl(220 5% 30%) 0%,
-      hsl(220 5% 20%) 100%
-    );
+    background: 
+      linear-gradient(
+        180deg,
+        hsl(40 10% 30%) 0%,
+        hsl(40 8% 22%) 50%,
+        hsl(40 10% 18%) 100%
+      );
     box-shadow: 
-      inset 0 1px 0 hsl(220 5% 40%),
-      0 2px 4px hsl(0 0% 0% / 0.4);
+      inset 0 1px 0 hsl(40 12% 38%),
+      inset 0 -1px 0 hsl(40 5% 12%),
+      0 2px 4px hsl(0 0% 0% / 0.5);
+    border: 1px solid hsl(40 8% 15%);
   }
 
   .mix-button-active {
-    background: linear-gradient(
-      180deg,
-      hsl(var(--console-amber)) 0%,
-      hsl(35 90% 45%) 100%
-    );
+    background: 
+      radial-gradient(
+        ellipse at center,
+        hsl(var(--console-green-glow)) 0%,
+        hsl(var(--console-green)) 60%,
+        hsl(120 30% 28%) 100%
+      );
     box-shadow: 
-      0 0 12px hsl(var(--console-amber-glow) / 0.6),
-      inset 0 1px 0 hsl(35 100% 70%);
+      0 0 15px hsl(var(--console-green-glow) / 0.8),
+      0 0 30px hsl(var(--console-green-glow) / 0.3),
+      inset 0 1px 1px hsl(120 50% 55%);
+    border: 1px solid hsl(120 25% 22%);
   }
 
   .channel-label {
-    font-family: 'JetBrains Mono', monospace;
-    text-shadow: 0 1px 2px hsl(0 0% 0% / 0.5);
+    font-family: 'IBM Plex Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .vintage-label {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.15em;
   }
 
   .screw {
-    background: radial-gradient(
-      circle at 30% 30%,
-      hsl(220 5% 45%) 0%,
-      hsl(220 5% 25%) 100%
-    );
+    background: 
+      radial-gradient(
+        circle at 35% 35%,
+        hsl(42 45% 55%) 0%,
+        hsl(42 40% 40%) 30%,
+        hsl(42 35% 30%) 100%
+      );
     box-shadow: 
-      inset 0 0 2px hsl(0 0% 0% / 0.5),
-      0 1px 2px hsl(0 0% 0% / 0.3);
+      inset 0 0 2px hsl(0 0% 0% / 0.6),
+      0 1px 2px hsl(0 0% 0% / 0.4);
+  }
+
+  .screw::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 25%;
+    right: 25%;
+    height: 1px;
+    background: hsl(42 30% 25%);
+    transform: rotate(45deg);
+  }
+
+  .embossed-text {
+    color: hsl(40 8% 35%);
+    text-shadow: 
+      0 1px 0 hsl(45 20% 80%),
+      0 -1px 0 hsl(40 5% 45%);
+  }
+
+  .debossed-text {
+    color: hsl(40 10% 55%);
+    text-shadow: 
+      0 -1px 0 hsl(40 5% 40%),
+      0 1px 0 hsl(45 20% 75%);
+  }
+
+  .led-indicator {
+    box-shadow: 
+      0 0 8px currentColor,
+      0 0 16px currentColor,
+      inset 0 0 4px hsl(0 0% 100% / 0.3);
+  }
+
+  .vintage-border {
+    border: 2px solid hsl(40 8% 20%);
+    box-shadow: 
+      inset 0 0 0 1px hsl(40 12% 35%),
+      0 2px 4px hsl(0 0% 0% / 0.3);
   }
 }
 
 @layer utilities {
   .text-glow-amber {
-    text-shadow: 0 0 8px hsl(var(--console-amber-glow));
+    text-shadow: 
+      0 0 8px hsl(var(--console-amber-glow)),
+      0 0 16px hsl(var(--console-amber-glow) / 0.5);
+  }
+
+  .text-glow-green {
+    text-shadow: 
+      0 0 8px hsl(var(--console-green-glow)),
+      0 0 16px hsl(var(--console-green-glow) / 0.5);
   }
 }
