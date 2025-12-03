@@ -96,23 +96,6 @@ export const PanKnob = ({ value, onChange }: PanKnobProps) => {
           </div>
         </div>
 
-        {/* Center LED when at center position */}
-        {Math.abs(value) < 5 && (
-          <div 
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-console-amber led-indicator pointer-events-none animate-pulse"
-            style={{ animationDuration: '1.5s' }}
-          />
-        )}
-      </div>
-
-      {/* Pan value display - LCD style */}
-      <div className="px-2.5 py-1 recessed-display rounded-sm border border-console-bakelite">
-        <span 
-          className="text-[10px] lcd-display text-console-amber font-medium tracking-wider"
-          style={{ textShadow: '0 0 8px hsl(35 95% 55% / 0.7)' }}
-        >
-          {value === 0 ? "CTR" : value < 0 ? `L${Math.abs(value).toString().padStart(2, '0')}` : `R${value.toString().padStart(2, '0')}`}
-        </span>
       </div>
     </div>
   );
