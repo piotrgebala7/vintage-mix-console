@@ -56,23 +56,23 @@ export const ChannelStrip = ({
       {/* Fader */}
       <Fader value={faderValue} onChange={onFaderChange} />
 
-      {/* Channel name - vintage tape label style */}
+      {/* Channel name - vintage embossed label style */}
       <div className="w-full px-1">
         <div className="relative">
-          {/* Tape label background */}
+          {/* Dark embossed label background */}
           <div 
-            className="absolute inset-0 bg-gradient-to-b from-amber-100/90 to-amber-50/80 rounded-[2px]"
+            className="absolute inset-0 bg-gradient-to-b from-console-bakelite to-console-groove rounded-[2px]"
             style={{
-              boxShadow: '0 1px 2px hsl(0 0% 0% / 0.3), inset 0 1px 0 hsl(0 0% 100% / 0.5)'
+              boxShadow: 'inset 0 2px 4px hsl(0 0% 0% / 0.5), 0 1px 0 hsl(35 15% 25% / 0.3)'
             }}
           />
           <input
             type="text"
             value={name}
             onChange={(e) => onNameChange(e.target.value)}
-            className="relative w-full px-2 py-1.5 text-[10px] font-mono text-center bg-transparent text-console-groove font-semibold border-none focus:outline-none focus:ring-1 focus:ring-console-amber channel-label tracking-wider"
+            className="relative w-full px-2 py-1.5 text-[10px] font-mono text-center bg-transparent text-console-amber font-semibold border-none focus:outline-none focus:ring-1 focus:ring-console-amber channel-label tracking-wider"
             style={{
-              textShadow: '0 1px 0 hsl(45 30% 95%)',
+              textShadow: '0 0 8px hsl(32 90% 48% / 0.6)',
             }}
             maxLength={8}
           />
