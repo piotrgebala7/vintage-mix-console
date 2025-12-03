@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600;700&family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600;700&family=Bebas+Neue&family=Orbitron:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,63 +6,70 @@
 
 @layer base {
   :root {
-    /* Vintage 70s console palette */
-    --background: 30 20% 6%;
-    --foreground: 45 25% 88%;
+    /* Vintage 70s console palette - warmer tones */
+    --background: 25 25% 5%;
+    --foreground: 45 30% 90%;
 
-    --card: 28 18% 14%;
-    --card-foreground: 45 25% 88%;
+    --card: 28 20% 12%;
+    --card-foreground: 45 30% 90%;
 
-    --popover: 28 18% 14%;
-    --popover-foreground: 45 25% 88%;
+    --popover: 28 20% 12%;
+    --popover-foreground: 45 30% 90%;
 
-    --primary: 38 85% 52%;
-    --primary-foreground: 30 20% 6%;
+    --primary: 35 90% 55%;
+    --primary-foreground: 25 25% 5%;
 
-    --secondary: 35 12% 22%;
-    --secondary-foreground: 45 25% 88%;
+    --secondary: 32 15% 20%;
+    --secondary-foreground: 45 30% 90%;
 
-    --muted: 30 10% 20%;
-    --muted-foreground: 40 15% 50%;
+    --muted: 28 12% 18%;
+    --muted-foreground: 38 18% 55%;
 
-    --accent: 38 80% 48%;
-    --accent-foreground: 30 20% 6%;
+    --accent: 35 85% 50%;
+    --accent-foreground: 25 25% 5%;
 
-    --destructive: 0 65% 48%;
+    --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 30 12% 18%;
-    --input: 30 12% 18%;
-    --ring: 38 85% 52%;
+    --border: 28 15% 16%;
+    --input: 28 15% 16%;
+    --ring: 35 90% 55%;
 
     --radius: 0.125rem;
 
-    /* Vintage console colors */
-    --console-wood: 28 35% 10%;
-    --console-wood-light: 28 30% 18%;
-    --console-metal: 40 8% 35%;
-    --console-metal-light: 40 10% 48%;
-    --console-metal-dark: 40 6% 22%;
-    --console-amber: 38 85% 52%;
-    --console-amber-glow: 38 95% 58%;
-    --console-red: 0 65% 48%;
-    --console-red-glow: 0 75% 55%;
-    --console-cream: 45 35% 82%;
-    --console-beige: 40 25% 75%;
-    --console-groove: 30 15% 8%;
-    --console-bakelite: 25 20% 15%;
-    --console-brass: 42 50% 45%;
-    --console-green: 120 35% 35%;
-    --console-green-glow: 120 45% 45%;
+    /* Vintage console colors - enhanced */
+    --console-wood: 22 40% 8%;
+    --console-wood-light: 25 35% 15%;
+    --console-wood-grain: 20 45% 6%;
+    --console-metal: 38 10% 38%;
+    --console-metal-light: 40 12% 52%;
+    --console-metal-dark: 38 8% 20%;
+    --console-metal-highlight: 42 15% 65%;
+    --console-amber: 35 95% 55%;
+    --console-amber-glow: 35 100% 62%;
+    --console-amber-dim: 35 70% 35%;
+    --console-red: 0 72% 50%;
+    --console-red-glow: 0 80% 58%;
+    --console-cream: 42 40% 85%;
+    --console-beige: 38 30% 78%;
+    --console-groove: 25 18% 6%;
+    --console-bakelite: 20 25% 12%;
+    --console-brass: 40 55% 48%;
+    --console-brass-light: 42 60% 58%;
+    --console-brass-dark: 38 45% 32%;
+    --console-green: 120 40% 38%;
+    --console-green-glow: 120 50% 48%;
+    --console-chrome: 210 5% 72%;
+    --console-chrome-dark: 210 5% 45%;
 
-    --sidebar-background: 30 20% 6%;
-    --sidebar-foreground: 45 25% 88%;
-    --sidebar-primary: 38 85% 52%;
-    --sidebar-primary-foreground: 30 20% 6%;
-    --sidebar-accent: 30 10% 20%;
-    --sidebar-accent-foreground: 45 25% 88%;
-    --sidebar-border: 30 12% 18%;
-    --sidebar-ring: 38 85% 52%;
+    --sidebar-background: 25 25% 5%;
+    --sidebar-foreground: 45 30% 90%;
+    --sidebar-primary: 35 90% 55%;
+    --sidebar-primary-foreground: 25 25% 5%;
+    --sidebar-accent: 28 12% 18%;
+    --sidebar-accent-foreground: 45 30% 90%;
+    --sidebar-border: 28 15% 16%;
+    --sidebar-ring: 35 90% 55%;
   }
 }
 
@@ -78,166 +85,243 @@
 }
 
 @layer components {
+  /* Realistic wood grain background */
   .console-wood {
     background: 
-      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.02' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.008 0.08' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.12'/%3E%3C/svg%3E"),
       repeating-linear-gradient(
-        92deg,
-        hsl(28 35% 8%) 0px,
-        hsl(25 30% 12%) 1px,
-        hsl(28 28% 10%) 2px,
-        hsl(30 25% 11%) 4px,
-        hsl(25 32% 9%) 6px
+        88deg,
+        hsl(22 42% 6%) 0px,
+        hsl(20 38% 10%) 1px,
+        hsl(25 35% 7%) 2px,
+        hsl(22 40% 9%) 4px,
+        hsl(18 45% 6%) 5px,
+        hsl(24 38% 8%) 8px,
+        hsl(20 42% 7%) 10px
       ),
       linear-gradient(
-        180deg,
-        hsl(28 30% 12%) 0%,
-        hsl(25 28% 8%) 50%,
-        hsl(28 32% 10%) 100%
+        175deg,
+        hsl(25 35% 10%) 0%,
+        hsl(22 40% 6%) 30%,
+        hsl(20 38% 8%) 70%,
+        hsl(25 35% 7%) 100%
       );
-    box-shadow: inset 0 0 100px hsl(0 0% 0% / 0.5);
+    box-shadow: 
+      inset 0 0 150px hsl(0 0% 0% / 0.6),
+      inset 0 0 50px hsl(25 30% 5% / 0.8);
   }
 
+  /* Brushed metal panel effect */
   .console-panel {
     background: 
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5 0.01' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"),
       linear-gradient(
         180deg,
-        hsl(40 12% 32%) 0%,
-        hsl(40 10% 28%) 2%,
-        hsl(40 8% 24%) 50%,
-        hsl(40 10% 22%) 98%,
-        hsl(40 8% 18%) 100%
+        hsl(40 14% 36%) 0%,
+        hsl(40 12% 32%) 2%,
+        hsl(38 10% 28%) 15%,
+        hsl(38 9% 26%) 50%,
+        hsl(38 10% 24%) 85%,
+        hsl(40 8% 20%) 98%,
+        hsl(38 6% 16%) 100%
       );
     box-shadow: 
-      inset 0 1px 0 hsl(40 15% 40%),
-      inset 0 -1px 0 hsl(40 5% 15%),
-      0 4px 12px hsl(0 0% 0% / 0.4);
+      inset 0 1px 0 hsl(40 18% 45%),
+      inset 0 -1px 0 hsl(38 5% 14%),
+      inset 1px 0 0 hsl(40 10% 30%),
+      inset -1px 0 0 hsl(38 8% 22%),
+      0 8px 24px hsl(0 0% 0% / 0.5),
+      0 2px 4px hsl(0 0% 0% / 0.3);
   }
 
+  /* Channel strip with cream/beige look */
   .console-channel {
     background: 
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"),
       linear-gradient(
         180deg,
-        hsl(45 20% 78%) 0%,
-        hsl(42 18% 72%) 3%,
-        hsl(40 15% 68%) 50%,
-        hsl(42 18% 65%) 97%,
-        hsl(40 12% 58%) 100%
+        hsl(44 25% 82%) 0%,
+        hsl(42 22% 76%) 2%,
+        hsl(40 20% 72%) 15%,
+        hsl(40 18% 70%) 50%,
+        hsl(42 20% 68%) 85%,
+        hsl(40 16% 62%) 98%,
+        hsl(38 14% 55%) 100%
       );
     box-shadow: 
-      inset 0 1px 0 hsl(45 25% 85%),
-      inset 0 -1px 0 hsl(40 10% 50%),
-      0 2px 8px hsl(0 0% 0% / 0.3);
+      inset 0 1px 0 hsl(45 30% 88%),
+      inset 0 -1px 0 hsl(38 12% 48%),
+      inset 1px 0 0 hsl(44 20% 78%),
+      inset -1px 0 0 hsl(40 15% 58%),
+      0 4px 12px hsl(0 0% 0% / 0.35),
+      0 1px 3px hsl(0 0% 0% / 0.2);
   }
 
+  /* Fader groove - deep recessed slot */
   .fader-groove {
     background: 
       linear-gradient(
         90deg,
-        hsl(30 15% 6%) 0%,
-        hsl(30 12% 10%) 20%,
-        hsl(30 10% 8%) 80%,
-        hsl(30 15% 6%) 100%
+        hsl(25 20% 4%) 0%,
+        hsl(28 15% 8%) 15%,
+        hsl(25 12% 6%) 50%,
+        hsl(28 15% 8%) 85%,
+        hsl(25 20% 4%) 100%
       );
     box-shadow: 
-      inset 0 3px 6px hsl(0 0% 0% / 0.7),
-      inset 0 0 1px hsl(0 0% 0%);
+      inset 0 4px 10px hsl(0 0% 0% / 0.9),
+      inset 0 -2px 4px hsl(0 0% 0% / 0.4),
+      inset 2px 0 4px hsl(0 0% 0% / 0.6),
+      inset -2px 0 4px hsl(0 0% 0% / 0.6),
+      0 1px 0 hsl(40 15% 50% / 0.15);
   }
 
+  /* Realistic fader handle with chrome cap */
   .fader-handle {
     background: 
       linear-gradient(
         180deg,
-        hsl(45 15% 70%) 0%,
-        hsl(42 12% 55%) 10%,
-        hsl(40 10% 45%) 50%,
-        hsl(42 12% 50%) 90%,
-        hsl(45 15% 60%) 100%
+        hsl(210 8% 75%) 0%,
+        hsl(40 10% 60%) 5%,
+        hsl(38 8% 48%) 20%,
+        hsl(38 6% 42%) 50%,
+        hsl(38 8% 46%) 80%,
+        hsl(40 10% 55%) 95%,
+        hsl(210 8% 70%) 100%
       );
     box-shadow: 
-      0 1px 0 hsl(45 20% 75%),
-      0 -1px 0 hsl(40 8% 35%),
-      0 4px 8px hsl(0 0% 0% / 0.5),
-      inset 0 0 8px hsl(45 15% 65% / 0.3);
+      0 1px 0 hsl(210 10% 80%),
+      0 -1px 0 hsl(38 6% 32%),
+      0 6px 12px hsl(0 0% 0% / 0.6),
+      0 2px 4px hsl(0 0% 0% / 0.4),
+      inset 0 1px 2px hsl(210 10% 85% / 0.4),
+      inset 0 -1px 2px hsl(0 0% 0% / 0.2);
   }
 
+  /* Realistic bakelite knob */
   .knob {
     background: 
       radial-gradient(
-        circle at 30% 25%,
-        hsl(40 12% 50%) 0%,
-        hsl(40 10% 35%) 40%,
-        hsl(40 8% 28%) 100%
+        ellipse at 35% 25%,
+        hsl(38 12% 55%) 0%,
+        hsl(38 10% 42%) 25%,
+        hsl(35 8% 32%) 60%,
+        hsl(32 10% 25%) 100%
       );
     box-shadow: 
-      0 3px 6px hsl(0 0% 0% / 0.6),
-      inset 0 1px 1px hsl(40 15% 60%),
-      inset 0 -1px 1px hsl(40 5% 20%);
+      0 4px 8px hsl(0 0% 0% / 0.7),
+      0 2px 4px hsl(0 0% 0% / 0.4),
+      inset 0 2px 2px hsl(40 15% 65% / 0.5),
+      inset 0 -2px 3px hsl(0 0% 0% / 0.4);
+  }
+
+  /* Knob with chrome skirt */
+  .knob-chrome-ring {
+    background: 
+      linear-gradient(
+        135deg,
+        hsl(210 8% 78%) 0%,
+        hsl(210 5% 55%) 50%,
+        hsl(210 8% 70%) 100%
+      );
+    box-shadow: 
+      inset 0 1px 1px hsl(0 0% 100% / 0.4),
+      inset 0 -1px 1px hsl(0 0% 0% / 0.3),
+      0 2px 4px hsl(0 0% 0% / 0.5);
   }
 
   .knob-indicator {
-    background: hsl(var(--console-cream));
-    box-shadow: 0 0 3px hsl(var(--console-cream) / 0.8);
+    background: linear-gradient(180deg, hsl(var(--console-cream)) 0%, hsl(42 35% 75%) 100%);
+    box-shadow: 
+      0 0 4px hsl(var(--console-cream) / 0.9),
+      inset 0 1px 1px hsl(0 0% 100% / 0.5);
   }
 
+  /* Mute button - pushbutton style */
   .mute-button {
     background: 
       linear-gradient(
         180deg,
-        hsl(25 15% 25%) 0%,
-        hsl(25 12% 18%) 50%,
-        hsl(25 15% 15%) 100%
+        hsl(22 18% 28%) 0%,
+        hsl(22 15% 20%) 15%,
+        hsl(22 12% 16%) 50%,
+        hsl(22 15% 14%) 85%,
+        hsl(22 18% 12%) 100%
       );
     box-shadow: 
-      inset 0 1px 0 hsl(25 12% 32%),
-      inset 0 -1px 0 hsl(25 8% 10%),
-      0 2px 4px hsl(0 0% 0% / 0.5);
-    border: 1px solid hsl(25 10% 12%);
+      inset 0 1px 0 hsl(22 15% 35%),
+      inset 0 -2px 0 hsl(22 10% 8%),
+      0 3px 6px hsl(0 0% 0% / 0.6),
+      0 1px 2px hsl(0 0% 0% / 0.4);
+    border: 1px solid hsl(22 12% 10%);
   }
 
+  .mute-button:active {
+    transform: translateY(1px);
+    box-shadow: 
+      inset 0 1px 0 hsl(22 15% 30%),
+      inset 0 -1px 0 hsl(22 10% 10%),
+      0 1px 2px hsl(0 0% 0% / 0.4);
+  }
+
+  /* Active mute with glowing red LED */
   .mute-button-active {
     background: 
       radial-gradient(
-        ellipse at center,
-        hsl(0 70% 55%) 0%,
-        hsl(0 65% 45%) 60%,
-        hsl(0 60% 38%) 100%
+        ellipse at 50% 30%,
+        hsl(0 75% 60%) 0%,
+        hsl(0 70% 48%) 40%,
+        hsl(0 65% 38%) 70%,
+        hsl(0 60% 30%) 100%
       );
     box-shadow: 
-      0 0 15px hsl(var(--console-red-glow)),
-      0 0 30px hsl(var(--console-red-glow) / 0.4),
-      inset 0 1px 1px hsl(0 80% 70%);
-    border: 1px solid hsl(0 50% 30%);
+      0 0 20px hsl(var(--console-red-glow) / 0.8),
+      0 0 40px hsl(var(--console-red-glow) / 0.4),
+      0 0 60px hsl(var(--console-red-glow) / 0.2),
+      inset 0 2px 2px hsl(0 90% 75% / 0.5),
+      inset 0 -2px 4px hsl(0 0% 0% / 0.3);
+    border: 1px solid hsl(0 55% 28%);
   }
 
+  /* Mix selector button */
   .mix-button {
     background: 
       linear-gradient(
         180deg,
-        hsl(40 10% 30%) 0%,
-        hsl(40 8% 22%) 50%,
-        hsl(40 10% 18%) 100%
+        hsl(38 12% 32%) 0%,
+        hsl(38 10% 25%) 15%,
+        hsl(38 8% 20%) 50%,
+        hsl(38 10% 18%) 85%,
+        hsl(38 12% 15%) 100%
       );
     box-shadow: 
-      inset 0 1px 0 hsl(40 12% 38%),
-      inset 0 -1px 0 hsl(40 5% 12%),
-      0 2px 4px hsl(0 0% 0% / 0.5);
-    border: 1px solid hsl(40 8% 15%);
+      inset 0 1px 0 hsl(38 14% 40%),
+      inset 0 -2px 0 hsl(38 6% 10%),
+      0 3px 6px hsl(0 0% 0% / 0.5),
+      0 1px 2px hsl(0 0% 0% / 0.3);
+    border: 1px solid hsl(38 10% 12%);
+  }
+
+  .mix-button:active {
+    transform: translateY(1px);
   }
 
   .mix-button-active {
     background: 
       radial-gradient(
-        ellipse at center,
+        ellipse at 50% 30%,
         hsl(var(--console-green-glow)) 0%,
-        hsl(var(--console-green)) 60%,
-        hsl(120 30% 28%) 100%
+        hsl(var(--console-green)) 40%,
+        hsl(120 35% 30%) 70%,
+        hsl(120 30% 22%) 100%
       );
     box-shadow: 
-      0 0 15px hsl(var(--console-green-glow) / 0.8),
-      0 0 30px hsl(var(--console-green-glow) / 0.3),
-      inset 0 1px 1px hsl(120 50% 55%);
-    border: 1px solid hsl(120 25% 22%);
+      0 0 18px hsl(var(--console-green-glow) / 0.8),
+      0 0 35px hsl(var(--console-green-glow) / 0.4),
+      0 0 50px hsl(var(--console-green-glow) / 0.15),
+      inset 0 2px 2px hsl(120 60% 60% / 0.5),
+      inset 0 -2px 4px hsl(0 0% 0% / 0.3);
+    border: 1px solid hsl(120 28% 18%);
   }
 
   .channel-label {
@@ -251,56 +335,130 @@
     letter-spacing: 0.15em;
   }
 
+  .lcd-display {
+    font-family: 'Orbitron', sans-serif;
+  }
+
+  /* Realistic brass Phillips screw */
   .screw {
     background: 
       radial-gradient(
         circle at 35% 35%,
-        hsl(42 45% 55%) 0%,
-        hsl(42 40% 40%) 30%,
-        hsl(42 35% 30%) 100%
+        hsl(42 55% 60%) 0%,
+        hsl(40 50% 48%) 25%,
+        hsl(38 45% 38%) 60%,
+        hsl(36 40% 28%) 100%
       );
     box-shadow: 
-      inset 0 0 2px hsl(0 0% 0% / 0.6),
-      0 1px 2px hsl(0 0% 0% / 0.4);
+      inset 0 -1px 2px hsl(0 0% 0% / 0.5),
+      inset 0 1px 1px hsl(42 60% 70% / 0.4),
+      0 1px 3px hsl(0 0% 0% / 0.5);
+    position: relative;
+  }
+
+  .screw::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    right: 20%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(36 35% 22%) 20%, hsl(36 35% 22%) 80%, transparent);
+    transform: translateY(-50%);
   }
 
   .screw::after {
     content: '';
     position: absolute;
-    top: 50%;
-    left: 25%;
-    right: 25%;
-    height: 1px;
-    background: hsl(42 30% 25%);
-    transform: rotate(45deg);
+    top: 20%;
+    bottom: 20%;
+    left: 50%;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, hsl(36 35% 22%) 20%, hsl(36 35% 22%) 80%, transparent);
+    transform: translateX(-50%);
   }
 
+  /* Embossed/debossed text effects */
   .embossed-text {
-    color: hsl(40 8% 35%);
+    color: hsl(38 10% 38%);
     text-shadow: 
-      0 1px 0 hsl(45 20% 80%),
-      0 -1px 0 hsl(40 5% 45%);
+      0 1px 0 hsl(45 25% 82%),
+      0 -1px 0 hsl(38 8% 48%);
   }
 
   .debossed-text {
-    color: hsl(40 10% 55%);
+    color: hsl(38 12% 58%);
     text-shadow: 
-      0 -1px 0 hsl(40 5% 40%),
-      0 1px 0 hsl(45 20% 75%);
+      0 -1px 0 hsl(38 8% 42%),
+      0 1px 0 hsl(45 22% 78%);
   }
 
+  /* Glowing LED indicator */
   .led-indicator {
     box-shadow: 
-      0 0 8px currentColor,
-      0 0 16px currentColor,
-      inset 0 0 4px hsl(0 0% 100% / 0.3);
+      0 0 6px currentColor,
+      0 0 12px currentColor,
+      0 0 20px currentColor,
+      inset 0 0 3px hsl(0 0% 100% / 0.4);
   }
 
-  .vintage-border {
-    border: 2px solid hsl(40 8% 20%);
+  /* VU Meter LED segment */
+  .vu-led {
     box-shadow: 
-      inset 0 0 0 1px hsl(40 12% 35%),
-      0 2px 4px hsl(0 0% 0% / 0.3);
+      inset 0 1px 1px hsl(0 0% 100% / 0.2),
+      inset 0 -1px 1px hsl(0 0% 0% / 0.3);
+  }
+
+  .vu-led-on {
+    box-shadow: 
+      0 0 4px currentColor,
+      0 0 8px currentColor,
+      inset 0 1px 1px hsl(0 0% 100% / 0.3);
+  }
+
+  /* Vintage border with beveled edge */
+  .vintage-border {
+    border: 2px solid hsl(38 10% 18%);
+    box-shadow: 
+      inset 0 0 0 1px hsl(40 14% 38%),
+      inset 0 0 0 2px hsl(38 8% 22% / 0.5),
+      0 4px 8px hsl(0 0% 0% / 0.4),
+      0 1px 2px hsl(0 0% 0% / 0.2);
+  }
+
+  /* Chrome trim accent */
+  .chrome-trim {
+    background: linear-gradient(
+      180deg,
+      hsl(210 8% 80%) 0%,
+      hsl(210 5% 60%) 50%,
+      hsl(210 8% 75%) 100%
+    );
+    box-shadow: 
+      inset 0 1px 0 hsl(0 0% 100% / 0.5),
+      inset 0 -1px 0 hsl(0 0% 0% / 0.2);
+  }
+
+  /* Brass trim accent */
+  .brass-trim {
+    background: linear-gradient(
+      180deg,
+      hsl(42 60% 60%) 0%,
+      hsl(40 55% 45%) 50%,
+      hsl(42 55% 55%) 100%
+    );
+    box-shadow: 
+      inset 0 1px 0 hsl(44 65% 70% / 0.6),
+      inset 0 -1px 0 hsl(38 45% 30% / 0.5);
+  }
+
+  /* Recessed display area */
+  .recessed-display {
+    background: hsl(var(--console-groove));
+    box-shadow: 
+      inset 0 2px 4px hsl(0 0% 0% / 0.8),
+      inset 0 0 1px hsl(0 0% 0%),
+      0 1px 0 hsl(40 15% 55% / 0.2);
   }
 }
 
@@ -308,12 +466,20 @@
   .text-glow-amber {
     text-shadow: 
       0 0 8px hsl(var(--console-amber-glow)),
-      0 0 16px hsl(var(--console-amber-glow) / 0.5);
+      0 0 16px hsl(var(--console-amber-glow) / 0.6),
+      0 0 24px hsl(var(--console-amber-glow) / 0.3);
   }
 
   .text-glow-green {
     text-shadow: 
       0 0 8px hsl(var(--console-green-glow)),
-      0 0 16px hsl(var(--console-green-glow) / 0.5);
+      0 0 16px hsl(var(--console-green-glow) / 0.6),
+      0 0 24px hsl(var(--console-green-glow) / 0.3);
+  }
+
+  .text-glow-red {
+    text-shadow: 
+      0 0 8px hsl(var(--console-red-glow)),
+      0 0 16px hsl(var(--console-red-glow) / 0.6);
   }
 }
