@@ -1,7 +1,6 @@
 import { Fader } from "./Fader";
 import { PanKnob } from "./PanKnob";
 import { MuteButton } from "./MuteButton";
-import { VUMeter } from "./VUMeter";
 
 interface ChannelStripProps {
   channelNumber: number;
@@ -26,9 +25,6 @@ export const ChannelStrip = ({
   onMuteToggle,
   onNameChange,
 }: ChannelStripProps) => {
-  // Simulate VU level based on fader (with some variance for realism)
-  const vuLevel = isMuted ? 0 : Math.min(100, faderValue * 0.95 + Math.random() * 5);
-
   return (
     <div className="flex flex-col items-center gap-3 p-3 console-channel rounded-sm vintage-border relative">
       {/* Screws at corners */}
@@ -43,9 +39,6 @@ export const ChannelStrip = ({
           CH {channelNumber.toString().padStart(2, "0")}
         </span>
       </div>
-
-      {/* VU Meter */}
-      <VUMeter level={vuLevel} />
 
       {/* Pan knob */}
       <PanKnob value={panValue} onChange={onPanChange} />
