@@ -278,7 +278,7 @@ export const MixingConsole = () => {
       {/* Content Wrapper */}
       <div className="w-full h-full flex items-center justify-center lg:block">
         <div className="w-full h-full flex flex-col
-                        landscape:w-[150.33%] landscape:h-[150.33%] landscape:scale-[0.67] landscape:origin-center
+                        landscape:w-[173.33%] landscape:h-[173.33%] landscape:scale-[0.58] landscape:origin-center
                         lg:landscape:w-full lg:landscape:h-full lg:landscape:scale-100 lg:landscape:origin-top">
 
           <header className="text-center px-4 shrink-0 relative z-10 pb-2 landscape:hidden lg:landscape:block">
