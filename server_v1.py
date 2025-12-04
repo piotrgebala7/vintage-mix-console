@@ -202,7 +202,7 @@ print(f"\nWczytuję preset: {preset_path}\n")
 raw_channels = get_uad_mixer_channels(preset_path)
 grouped = group_stereo_pairs(raw_channels)
 final = assign_chid(grouped)
-cleaned = [ch for ch in final if "SPDI" not in ch["chnam"].upper()]
+cleaned = [ch for ch in final if "S/PDIF" not in ch["chnam"].upper()]
 
 
 # JSON pełny
