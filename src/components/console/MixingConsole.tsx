@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { ChannelStrip } from "./ChannelStrip";
+import { VintageChannelStrip } from "./VintageChannelStrip";
 import { MixSelector } from "./MixSelector";
 import { io, Socket } from "socket.io-client";
 import * as Slider from "@radix-ui/react-slider";
-import { Settings, Save, FolderOpen, Trash2, Plus, Eye, EyeOff } from "lucide-react";
+import { Settings, Eye, EyeOff, LayoutGrid } from "lucide-react";
 
 interface ChannelState {
   name: string;
@@ -24,12 +25,37 @@ export const MixingConsole = () => {
 
   // Preset & Config UI State
   const [showMenu, setShowMenu] = useState(false);
-  const [presetList, setPresetList] = useState<string[]>([]);
-  const [newPresetName, setNewPresetName] = useState("");
-  const [newChannelCount, setNewChannelCount] = useState(8);
+  const [diagMode, setDiagMode] = useState(false);
 
   // Visibility Mode State
   const [isVisibilityMode, setIsVisibilityMode] = useState(false);
+
+  // View mode
+  const [isVintageView, setIsVintageView] = useState(false);
+
+  // Detekcja urządzenia dotykowego — coarse pointer = palec, fine = mysz
+  const isTouchDevice = useState(() =>
+    typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches
+  )[0];
+
+  // Grupowanie kanałów
+  const GROUP_CYCLE = ["A", "B", "C", "D"] as const;
+  const GROUP_COLORS: Record<string, string> = { A: "#ef4444", B: "#22c55e", C: "#3b82f6", D: "#f97316" };
+  // Grupowanie per miks: channelGroups[mixIdx][chIdx] = "A"|"B"|"C"|"D"
+  const [channelGroups, setChannelGroups]   = useState<Record<number, Record<number, string>>>({});
+  const [bypassedGroups, setBypassedGroups] = useState<Record<number, Set<string>>>({});
+  const [selectedFader, setSelectedFader]   = useState<number | null>(null);
+  const [stereoList, setStereoList]         = useState<boolean[]>([]);
+
+  // VU metery – dane z UAD Console
+  const [allMeterLevels, setAllMeterLevels] = useState<Record<string, number>>({});
+  const selectedMixRef = useRef(selectedMix);
+  useEffect(() => { selectedMixRef.current = selectedMix; }, [selectedMix]);
+
+  // Snapshot wartości faderów w momencie rozpoczęcia przeciągania w grupie.
+  // Klucz: `${mixIdx}_${chIdx}`. Delta zawsze liczona od snapshota, nie od poprzedniego eventu.
+  const dragSnapshot = useRef<Record<string, number> | null>(null);
+  const dragStartVal = useRef<number>(0);
 
   useEffect(() => {
     const protocol = window.location.protocol;
@@ -63,14 +89,25 @@ export const MixingConsole = () => {
          });
     });
 
-    newSocket.on("presets_list", (list: string[]) => {
-        setPresetList(list);
+
+    newSocket.on("channel_info", (data: { stereo: boolean[] }) => {
+        console.log("channel_info received:", data.stereo);
+        setStereoList(data.stereo);
+    });
+
+    newSocket.on("meters_batch", (data: Array<{ c: number; m: number; v: number }>) => {
+        setAllMeterLevels(prev => {
+            const next = { ...prev };
+            data.forEach(({ c, m, v }) => { next[`${m}_${c}`] = v; });
+            return next;
+        });
     });
 
     return () => {
       newSocket.disconnect();
     };
   }, []);
+
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -104,63 +141,70 @@ export const MixingConsole = () => {
     }
   };
 
+  const cycleGroup = (chIdx: number) => {
+    setChannelGroups(prev => {
+      const mixGroups = { ...(prev[selectedMix] ?? {}) };
+      const current   = mixGroups[chIdx];
+      const currPos   = current ? GROUP_CYCLE.indexOf(current as typeof GROUP_CYCLE[number]) : -1;
+      const next      = GROUP_CYCLE[currPos + 1];
+      if (next) { mixGroups[chIdx] = next; } else { delete mixGroups[chIdx]; }
+      return { ...prev, [selectedMix]: mixGroups };
+    });
+  };
+
   const updateChannel = (
-    channelIndex: number,
+    chIdx: number,
     update: Partial<ChannelState>,
-    targetMixIndex: number
+    mixIdx: number
   ) => {
-    setMixes((prev) => {
+    const mixGroups  = channelGroups[mixIdx] ?? {};
+    const group      = mixGroups[chIdx];
+    const bypassed   = bypassedGroups[mixIdx] ?? new Set<string>();
+    const currentMix = mixes[mixIdx] || [];
+
+    // Grupowe propagowanie — wyłączone jeśli grupa jest bypassowana
+    const targets = (group && !bypassed.has(group))
+      ? Object.entries(mixGroups).filter(([, g]) => g === group).map(([i]) => Number(i))
+      : [chIdx];
+
+    // Oblicz finalne wartości (fader relatywny od snapshota, pan/mute absolutny)
+    const computed = targets.map(idx => {
+      let u = { ...update };
+      if ("faderValue" in update && group && idx !== chIdx) {
+        // Snapshot tworzony przy pierwszym ruchu fadera w tej sesji przeciągania
+        if (!dragSnapshot.current) {
+          dragSnapshot.current = {};
+          dragStartVal.current = currentMix[chIdx]?.faderValue ?? 0;
+          for (const t of targets) {
+            dragSnapshot.current[`${mixIdx}_${t}`] = currentMix[t]?.faderValue ?? 0;
+          }
+        }
+        const delta    = update.faderValue! - dragStartVal.current;
+        const snapVal  = dragSnapshot.current[`${mixIdx}_${idx}`] ?? (currentMix[idx]?.faderValue ?? 0);
+        u = { ...u, faderValue: Math.max(-144, Math.min(12, snapVal + delta)) };
+      }
+      return { idx, u };
+    });
+
+    setMixes(prev => {
       if (!prev) return [];
       const newMixes = [...prev];
-      if (newMixes[targetMixIndex]) {
-        newMixes[targetMixIndex] = newMixes[targetMixIndex].map((channel, i) => {
-            if (i === channelIndex) return { ...channel, ...update };
-            return channel;
-        });
+      if (!newMixes[mixIdx]) return newMixes;
+      const newMix = [...newMixes[mixIdx]];
+      for (const { idx, u } of computed) {
+        if (idx < newMix.length) newMix[idx] = { ...newMix[idx], ...u };
       }
+      newMixes[mixIdx] = newMix;
       return newMixes;
     });
 
     if (socket) {
-        socket.emit("update_channel", {
-            mixIndex: targetMixIndex,
-            channelIndex: channelIndex,
-            update: update
-        });
+      for (const { idx, u } of computed) {
+        socket.emit("update_channel", { mixIndex: mixIdx, channelIndex: idx, update: u });
+      }
     }
   };
 
-  const handleCreateNew = () => {
-      if (socket) {
-          if(window.confirm(`Create new setup with ${newChannelCount} channels? Unsaved changes will be lost.`)) {
-              socket.emit("init_setup", { count: newChannelCount });
-              setShowMenu(false);
-          }
-      }
-  };
-
-  const handleSavePreset = () => {
-      if (socket && newPresetName) {
-          socket.emit("save_preset", newPresetName);
-          setNewPresetName("");
-          alert("Preset saved!");
-      }
-  };
-
-  const handleLoadPreset = (name: string) => {
-      if (socket) {
-          if(window.confirm(`Load preset "${name}"? Current state will be lost.`)) {
-            socket.emit("load_preset", name);
-            setShowMenu(false);
-          }
-      }
-  };
-
-  const handleDeletePreset = (name: string) => {
-      if (socket && window.confirm(`Delete preset "${name}"?`)) {
-          socket.emit("delete_preset", name);
-      }
-  };
 
   // ------------------------------------------------------------------
   // SAFE RENDER: Check if we have data before rendering deep properties
@@ -175,6 +219,18 @@ export const MixingConsole = () => {
     >
        {/* Top Right Controls */}
        <div className="absolute top-4 right-4 z-50 flex gap-2">
+           <button
+            onClick={() => setIsVintageView(!isVintageView)}
+            className={`p-2 border rounded transition-colors ${
+                isVintageView
+                ? "bg-console-amber text-black border-console-amber"
+                : "bg-console-bakelite text-console-beige border-console-metal/50 hover:bg-console-metal-dark"
+            }`}
+            title="Toggle Vintage View"
+           >
+             <LayoutGrid size={20} />
+           </button>
+
            <button
             onClick={() => setIsVisibilityMode(!isVisibilityMode)}
             className={`p-2 border rounded transition-colors ${
@@ -204,70 +260,28 @@ export const MixingConsole = () => {
                     <button onClick={() => setShowMenu(false)} className="text-white/50 hover:text-white">✕</button>
                 </div>
 
-                <div className="p-6 overflow-y-auto space-y-8">
+                <div className="p-6">
                     <div className="space-y-4">
-                        <h3 className="text-sm font-mono text-console-beige/70 uppercase tracking-widest border-b border-white/10 pb-1">New Session</h3>
-                        <div className="flex flex-col gap-4">
-                            <div className="flex justify-between text-console-beige text-sm">
-                                <span>Channel Count:</span>
-                                <span className="font-bold text-console-amber">{newChannelCount}</span>
+                        <h3 className="text-sm font-mono text-console-beige/70 uppercase tracking-widest border-b border-white/10 pb-1">Diagnostics</h3>
+                        <div className="flex items-center justify-between">
+                            <div className="flex flex-col">
+                                <span className="text-console-beige text-sm">Diagnostic Mode</span>
+                                <span className="text-white/30 text-xs">Logs unknown UAD paths to server console</span>
                             </div>
-                            <Slider.Root
-                                className="relative flex items-center select-none touch-none w-full h-5"
-                                value={[newChannelCount]} max={32} min={1} step={1}
-                                onValueChange={(v) => setNewChannelCount(v[0])}
-                            >
-                                <Slider.Track className="bg-black/50 relative grow rounded-full h-[4px]">
-                                    <Slider.Range className="absolute bg-console-amber rounded-full h-full" />
-                                </Slider.Track>
-                                <Slider.Thumb className="block w-5 h-5 bg-console-beige rounded-full shadow hover:bg-white focus:outline-none" />
-                            </Slider.Root>
                             <button
-                                onClick={handleCreateNew}
-                                className="w-full py-2 bg-console-metal-dark hover:bg-console-metal border border-white/10 rounded text-white text-sm font-bold tracking-wider flex items-center justify-center gap-2 transition-all"
+                                onClick={() => {
+                                    const next = !diagMode;
+                                    setDiagMode(next);
+                                    socket?.emit("set_diagnostics", { enabled: next });
+                                }}
+                                className={`px-4 py-1.5 rounded text-xs font-bold tracking-wider border transition-all ${
+                                    diagMode
+                                        ? "bg-console-amber/20 border-console-amber text-console-amber"
+                                        : "bg-black/30 border-white/20 text-white/40"
+                                }`}
                             >
-                                <Plus size={16} /> INITIALIZE
+                                {diagMode ? "ON" : "OFF"}
                             </button>
-                        </div>
-                    </div>
-
-                    <div className="space-y-4">
-                        <h3 className="text-sm font-mono text-console-beige/70 uppercase tracking-widest border-b border-white/10 pb-1">Save Preset</h3>
-                        <div className="flex gap-2">
-                            <input
-                                type="text"
-                                value={newPresetName}
-                                onChange={(e) => setNewPresetName(e.target.value)}
-                                placeholder="Preset Name..."
-                                className="flex-1 bg-black/30 border border-white/10 rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-console-amber/50"
-                            />
-                            <button
-                                onClick={handleSavePreset}
-                                disabled={!newPresetName}
-                                className="px-4 bg-console-green/20 hover:bg-console-green/30 border border-console-green/50 rounded text-console-green disabled:opacity-50 transition-colors"
-                            >
-                                <Save size={18} />
-                            </button>
-                        </div>
-                    </div>
-
-                     <div className="space-y-4">
-                        <h3 className="text-sm font-mono text-console-beige/70 uppercase tracking-widest border-b border-white/10 pb-1">Load Preset</h3>
-                        <div className="flex flex-col gap-2 max-h-40 overflow-y-auto pr-2 custom-scrollbar">
-                            {presetList.length === 0 && <span className="text-white/30 text-xs italic">No presets saved.</span>}
-                            {presetList.map(preset => (
-                                <div key={preset} className="flex items-center justify-between bg-white/5 p-2 rounded hover:bg-white/10 group">
-                                    <span className="text-console-beige text-sm font-medium">{preset}</span>
-                                    <div className="flex gap-2 opacity-50 group-hover:opacity-100">
-                                        <button onClick={() => handleLoadPreset(preset)} className="text-console-amber hover:text-white" title="Load">
-                                            <FolderOpen size={16} />
-                                        </button>
-                                        <button onClick={() => handleDeletePreset(preset)} className="text-red-400 hover:text-red-200" title="Delete">
-                                            <Trash2 size={16} />
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
                         </div>
                     </div>
                 </div>
@@ -295,6 +309,7 @@ export const MixingConsole = () => {
             <div
               ref={scrollContainerRef}
               onScroll={handleScroll}
+              onPointerDown={() => setSelectedFader(null)}
               className="flex h-full overflow-x-auto overflow-y-hidden scrollbar-hide items-center py-8 landscape:py-2 lg:landscape:py-8 pl-4 md:pl-0"
               style={{
                   WebkitOverflowScrolling: 'touch',
@@ -317,27 +332,49 @@ export const MixingConsole = () => {
                         // Logic for hiding channels
                         if (!isVisibilityMode && channel.isHidden) return null;
 
+                        const stripProps = {
+                            channelNumber: index + 1,
+                            name: channel.name,
+                            faderValue: channel.faderValue,
+                            panValue: channel.panValue,
+                            isMuted: channel.isMuted,
+                            meterLevel: allMeterLevels[`${selectedMix}_${index}`] ?? -77,
+                            group: (channelGroups[selectedMix] ?? {})[index],
+                            isFaderSelected: selectedFader === index,
+                            onFaderSelect: () => setSelectedFader(index),
+                            onFaderChange: (value: number) =>
+                                updateChannel(index, { faderValue: value }, selectedMix),
+                            onFaderDragEnd: () => { dragSnapshot.current = null; },
+                            onPanChange: (value: number) =>
+                                updateChannel(index, { panValue: value }, selectedMix),
+                            onMuteToggle: () =>
+                                updateChannel(index, { isMuted: !channel.isMuted }, selectedMix),
+                            onNameChange: (name: string) =>
+                                updateChannel(index, { name }, selectedMix),
+                            isStereo: stereoList[index] ?? false,
+                            requireFaderSelect: isTouchDevice,
+                            onGroupChange: () => cycleGroup(index),
+                            groupBypassed: (() => {
+                                const g = (channelGroups[selectedMix] ?? {})[index];
+                                return g ? (bypassedGroups[selectedMix] ?? new Set()).has(g) : false;
+                            })(),
+                            onGroupBypass: () => {
+                                const g = (channelGroups[selectedMix] ?? {})[index];
+                                if (!g) return;
+                                setBypassedGroups(prev => {
+                                    const mixSet = new Set(prev[selectedMix] ?? []);
+                                    mixSet.has(g) ? mixSet.delete(g) : mixSet.add(g);
+                                    return { ...prev, [selectedMix]: mixSet };
+                                });
+                            },
+                        };
+
                         return (
                         <div key={index} className="relative group/channel">
-                            <ChannelStrip
-                                channelNumber={index + 1}
-                                name={channel.name}
-                                faderValue={channel.faderValue}
-                                panValue={channel.panValue}
-                                isMuted={channel.isMuted}
-                                onFaderChange={(value) =>
-                                    updateChannel(index, { faderValue: value }, selectedMix)
-                                }
-                                onPanChange={(value) =>
-                                    updateChannel(index, { panValue: value }, selectedMix)
-                                }
-                                onMuteToggle={() =>
-                                    updateChannel(index, { isMuted: !channel.isMuted }, selectedMix)
-                                }
-                                onNameChange={(name) =>
-                                    updateChannel(index, { name }, selectedMix)
-                                }
-                            />
+                            {isVintageView
+                                ? <VintageChannelStrip {...stripProps} />
+                                : <ChannelStrip {...stripProps} />
+                            }
 
                             {/* Visibility Overlay (Only in Visibility Mode) */}
                             {isVisibilityMode && (

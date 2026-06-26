@@ -86,6 +86,14 @@ def get_uad_mixer_channels(path):
 
         stereo_name_tag = obj.find("property[@id='kPropStereoName']")
         stereo_name = stereo_name_tag.text if stereo_name_tag is not None else None
+        send_a_tag = obj.find("property[@id='kPropHP1SendLevel']")
+        send_a = send_a_tag.text if send_a_tag is not None else None
+        send_b_tag = obj.find("property[@id='kPropHP2SendLevel']")
+        send_b = send_b_tag.text if send_b_tag is not None else None
+        send_c_tag = obj.find("property[@id='kPropHP3SendLevel']")
+        send_c = send_c_tag.text if send_c_tag is not None else None
+        send_d_tag = obj.find("property[@id='kPropHP4SendLevel']")
+        send_d = send_d_tag.text if send_d_tag is not None else None
 
         # kolejność
         try:
@@ -116,10 +124,15 @@ def get_uad_mixer_channels(path):
             "index": index,
             "name": name,
             "stereo": stereo,
-            "stereo_name": stereo_name
+            "stereo_name": stereo_name,
+            "send_a": send_a,
+            "send_b": send_b,
+            "send_c": send_c,
+            "send_d": send_d
         })
 
     channels.sort(key=lambda ch: ch["index"])
+    # print(channels)
     return channels
 
 
@@ -143,15 +156,23 @@ def group_stereo_pairs(channels):
             stereo_label = ch["stereo_name"] or f"{ch['name']} LR"
             grouped.append({
                 "name": stereo_label,
-                "stereo": True
+                "stereo": True,
+                "send_a": ch["send_a"],
+                "send_b": ch["send_b"],
+                "send_c": ch["send_c"],
+                "send_d": ch["send_d"]
             })
             skip = True
         else:
             grouped.append({
                 "name": ch["name"],
-                "stereo": False
+                "stereo": False,
+                "send_a": ch["send_a"],
+                "send_b": ch["send_b"],
+                "send_c": ch["send_c"],
+                "send_d": ch["send_d"]
             })
-
+    # print(grouped)
     return grouped
 
 
@@ -167,7 +188,11 @@ def assign_chid(grouped_channels):
         final.append({
             "chid": chid,
             "chnam": ch["name"],
-            "stereo": ch["stereo"]
+            "stereo": ch["stereo"],
+            "send_a": ch["send_a"],
+            "send_b": ch["send_b"],
+            "send_c": ch["send_c"],
+            "send_d": ch["send_d"]
         })
         chid += 2 if ch["stereo"] else 1
 
@@ -184,6 +209,14 @@ def extract_chnam(channel_json):
 def extract_chid(channel_json):
     return [ch["chid"] for ch in channel_json]
 
+def extract_senda(channel_json):
+    return [ch["send_a"] for ch in channel_json]
+def extract_sendb(channel_json):
+    return [ch["send_b"] for ch in channel_json]
+def extract_sendc(channel_json):
+    return [ch["send_c"] for ch in channel_json]
+def extract_sendd(channel_json):
+    return [ch["send_d"] for ch in channel_json]
 
 # ------------------------------------------------------
 # 6. GŁÓWNE WYWOŁANIE SKRYPTU
@@ -203,6 +236,7 @@ raw_channels = get_uad_mixer_channels(preset_path)
 grouped = group_stereo_pairs(raw_channels)
 final = assign_chid(grouped)
 cleaned = [ch for ch in final if "S/PDIF" not in ch["chnam"].upper()]
+# print(cleaned)
 
 
 # JSON pełny
@@ -212,9 +246,14 @@ cleaned = [ch for ch in final if "S/PDIF" not in ch["chnam"].upper()]
 # lista chnam
 chnam_list = extract_chnam(cleaned)
 chid_list = extract_chid(cleaned)
+senda_list = extract_senda(cleaned)
+sendb_list = extract_sendb(cleaned)
+sendc_list = extract_sendc(cleaned)
+sendd_list = extract_sendd(cleaned)
 
 print(chid_list)
 print(chnam_list)
+print(senda_list)
 
 
 # -------------------------------------------------------
@@ -246,17 +285,17 @@ if iac_port is not None:
 #   STATE MANAGEMENT
 # -------------------------------------------------------
 
-def create_mix(channel_names):
-    return [{"name": name, "faderValue": 0, "panValue": 50, "isMuted": False, "isHidden": False} for name in channel_names]
+def create_mix(channel_names, sends):
+    return [{"name": name, "faderValue": fader, "panValue": 50, "isMuted": False, "isHidden": False} for name, fader in zip(channel_names, sends)]
 
 
 # Default initial state (can be overwritten by presets)
 default_names = chnam_list
 current_state = [
-    create_mix(default_names),  # MIX A
-    create_mix(default_names),  # MIX B
-    create_mix(default_names),  # MIX C
-    create_mix(default_names),  # MIX D
+    create_mix(default_names, senda_list),  # MIX A
+    create_mix(default_names, sendb_list),  # MIX B
+    create_mix(default_names, sendc_list),  # MIX C
+    create_mix(default_names, sendd_list),  # MIX D
 ]
 
 FADER_BASE = 20
@@ -323,7 +362,8 @@ def handle_update(data):
 
                 if "faderValue" in update:
                     val = int(update["faderValue"])
-                    midi_val = int((val / 100) * 127)
+                    # midi_val = int((val / 100) * 127)
+                    midi_val = int(((val + 144) / 156) * 127)
                     # if ch_idx < 11:
                     midi_out.send_message([0xB0 | midi_ch, FADER_BASE + chid_list[ch_idx], midi_val])
                     # else:
@@ -332,7 +372,8 @@ def handle_update(data):
 
                 if "panValue" in update:
                     val = int(update["panValue"])
-                    midi_val = int((val / 100) * 127)
+                    # midi_val = int((val / 100) * 127)
+                    midi_val = int(((val + 144) / 156) * 127)
                     midi_out.send_message([0xB0 | midi_ch, PAN_BASE + ch_idx, midi_val])
 
                 if "isMuted" in update:

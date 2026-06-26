@@ -5,110 +5,109 @@ interface PanKnobProps {
   onChange: (value: number) => void;
 }
 
+const isTouchDevice =
+  typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches;
+
 const PanKnob = ({ value, onChange }: PanKnobProps) => {
   const [isDragging, setIsDragging] = useState(false);
-  const prevY = useRef<number>(0);
-  const lastTapTime = useRef<number>(0); // For double tap detection
+  const prevY          = useRef(0);
+  const lastTap        = useRef(0);
+  const knobRef        = useRef<HTMLDivElement>(null);
+  const touchStartX    = useRef(0);
+  const touchStartVal  = useRef(0);
+  const valueRef       = useRef(value);
+  useEffect(() => { valueRef.current = value; }, [value]);
 
-  // Map 0-100 to rotation (-135 to 135 degrees)
   const rotation = ((value - 50) / 50) * 135;
 
+  /* ── Desktop: mouse drag (vertical) ── */
   useEffect(() => {
+    if (!isDragging) return;
+
     const handleMouseMove = (e: MouseEvent) => {
-      if (!isDragging) return;
-      updateValue(e.clientY);
+      const dy = prevY.current - e.clientY;
+      prevY.current = e.clientY;
+      onChange(Math.min(100, Math.max(0, valueRef.current + dy * 0.8)));
     };
+    const handleEnd = () => { setIsDragging(false); document.body.style.cursor = ""; };
 
-    const handleTouchMove = (e: TouchEvent) => {
-      if (!isDragging) return;
-      // Prevent scrolling while rotating knob
-      if (e.cancelable) e.preventDefault();
-      updateValue(e.touches[0].clientY);
-    };
-
-    const updateValue = (clientY: number) => {
-      const deltaY = prevY.current - clientY;
-      prevY.current = clientY;
-
-      // Sensitivity factor
-      const change = deltaY * 0.8;
-
-      const newValue = Math.min(100, Math.max(0, value + change));
-      if (newValue !== value) {
-        onChange(newValue);
-      }
-    };
-
-    const handleEnd = () => {
-      setIsDragging(false);
-      document.body.style.cursor = "default";
-      document.body.style.touchAction = ""; // Restore scrolling
-    };
-
-    if (isDragging) {
-      window.addEventListener("mousemove", handleMouseMove);
-      window.addEventListener("mouseup", handleEnd);
-      window.addEventListener("touchmove", handleTouchMove, { passive: false });
-      window.addEventListener("touchend", handleEnd);
-
-      document.body.style.touchAction = "none";
-    }
-
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleEnd);
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleEnd);
-      window.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("touchend", handleEnd);
-      document.body.style.touchAction = "";
     };
-  }, [isDragging, value, onChange]);
-
-  const checkForDoubleTap = () => {
-    const now = Date.now();
-    if (now - lastTapTime.current < 300) { // 300ms threshold for double tap
-      onChange(50); // Reset to center
-      setIsDragging(false); // Stop dragging immediately
-      lastTapTime.current = 0; // Reset timer
-      return true;
-    }
-    lastTapTime.current = now;
-    return false;
-  };
+  }, [isDragging, onChange]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (checkForDoubleTap()) return;
-
+    if (isTouchDevice) return;
     setIsDragging(true);
     prevY.current = e.clientY;
-    document.body.style.cursor = "ns-resize";
+    document.body.style.cursor = "ew-resize";
   };
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (checkForDoubleTap()) return;
+  /* ── Mobile: native touchstart (passive:false) to block scroll ── */
+  useEffect(() => {
+    if (!isTouchDevice) return;
+    const el = knobRef.current;
+    if (!el) return;
 
-    setIsDragging(true);
-    prevY.current = e.touches[0].clientY;
-  };
+    const onTouchStart = (e: TouchEvent) => {
+      e.preventDefault(); // blokuje scroll ekranu
+      const now = Date.now();
+      if (now - lastTap.current < 300) {
+        onChange(50);
+        lastTap.current = 0;
+        return;
+      }
+      lastTap.current = now;
+      touchStartX.current   = e.touches[0].clientX;
+      touchStartVal.current = valueRef.current;
+      setIsDragging(true);
+    };
+
+    el.addEventListener("touchstart", onTouchStart, { passive: false });
+    return () => el.removeEventListener("touchstart", onTouchStart);
+  }, [onChange]);
+
+  /* ── Mobile: touchmove horizontal ── */
+  useEffect(() => {
+    if (!isTouchDevice || !isDragging) return;
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (e.cancelable) e.preventDefault();
+      const dx = e.touches[0].clientX - touchStartX.current;
+      onChange(Math.min(100, Math.max(0, touchStartVal.current + dx * 0.8)));
+    };
+    const onTouchEnd = () => setIsDragging(false);
+
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+    window.addEventListener("touchend", onTouchEnd);
+    return () => {
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onTouchEnd);
+    };
+  }, [isDragging, onChange]);
 
   return (
-    <div className="relative w-12 h-12 flex items-center justify-center touch-none">
-      {/* Markers */}
+    <div className="relative w-12 h-12 flex items-center justify-center">
       <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-1.5 bg-console-beige/40 pointer-events-none" />
       <div className="absolute top-[25%] left-[15%] w-0.5 h-1 bg-console-beige/20 -rotate-45 pointer-events-none" />
       <div className="absolute top-[25%] right-[15%] w-0.5 h-1 bg-console-beige/20 rotate-45 pointer-events-none" />
 
-      {/* Knob Body */}
       <div
-        className="w-9 h-9 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 shadow-[0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_2px_rgba(255,255,255,0.1)] border border-black cursor-ns-resize relative transform transition-transform duration-75 ease-out z-10"
-        style={{ transform: `rotate(${rotation}deg)` }}
+        ref={knobRef}
+        className="w-9 h-9 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 shadow-[0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_2px_rgba(255,255,255,0.1)] border border-black relative z-10"
+        style={{
+          transform: `rotate(${rotation}deg)`,
+          touchAction: "none",
+          cursor: isTouchDevice ? "default" : "ew-resize",
+        }}
         onMouseDown={handleMouseDown}
-        onTouchStart={handleTouchStart}
+        onDoubleClick={() => !isTouchDevice && onChange(50)}
       >
-        {/* Indicator Line */}
         <div className="absolute top-1 left-1/2 -translate-x-1/2 w-1 h-3 bg-white rounded-full shadow-[0_0_2px_rgba(255,255,255,0.5)] pointer-events-none" />
-
-        {/* Metallic top sheen */}
         <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none" />
       </div>
     </div>

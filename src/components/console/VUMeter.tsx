@@ -1,38 +1,48 @@
-interface VUMeterProps {
-  level: number; // 0-100
+import { useEffect, useRef, useState } from "react";
+
+const DB_MIN = -77;
+
+function toPercent(db: number): number {
+  return Math.max(0, Math.min(100, ((db - DB_MIN) / -DB_MIN) * 100));
 }
 
-export const VUMeter = ({ level }: VUMeterProps) => {
-  const segments = [
-    { threshold: 5, color: 'bg-green-600', glowColor: 'shadow-green-500/50' },
-    { threshold: 15, color: 'bg-green-600', glowColor: 'shadow-green-500/50' },
-    { threshold: 25, color: 'bg-green-500', glowColor: 'shadow-green-400/50' },
-    { threshold: 35, color: 'bg-green-500', glowColor: 'shadow-green-400/50' },
-    { threshold: 45, color: 'bg-yellow-500', glowColor: 'shadow-yellow-400/50' },
-    { threshold: 55, color: 'bg-yellow-500', glowColor: 'shadow-yellow-400/50' },
-    { threshold: 65, color: 'bg-yellow-400', glowColor: 'shadow-yellow-300/50' },
-    { threshold: 78, color: 'bg-orange-500', glowColor: 'shadow-orange-400/50' },
-    { threshold: 88, color: 'bg-red-500', glowColor: 'shadow-red-400/50' },
-    { threshold: 95, color: 'bg-red-600', glowColor: 'shadow-red-500/60' },
-  ];
+interface VUMeterProps {
+  level: number;    // dBFS -60..0
+  color?: string;   // opcjonalne nadpisanie koloru (dla vintage)
+  bg?: string;
+}
+
+export const VUMeter = ({ level, color, bg }: VUMeterProps) => {
+  const [peak, setPeak] = useState(DB_MIN);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (level > peak) {
+      setPeak(level);
+      if (timerRef.current) clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(() => setPeak(DB_MIN), 2000);
+    }
+  }, [level, peak]);
+
+  const pct     = toPercent(level);
+  const peakPct = toPercent(peak);
+  const barColor = color ?? (level >= 0 ? "#ef4444" : level >= -6 ? "#eab308" : "#22c55e");
 
   return (
-    <div className="flex flex-col gap-[2px] p-1.5 bg-console-groove rounded-sm recessed-display">
-      {segments.map((segment, index) => {
-        const isOn = level >= segment.threshold;
-        const reverseIndex = segments.length - 1 - index;
-        
-        return (
-          <div
-            key={index}
-            className={`w-5 h-1.5 rounded-[1px] transition-all duration-75 vu-led ${
-              isOn 
-                ? `${segments[reverseIndex].color} vu-led-on` 
-                : 'bg-console-bakelite/80'
-            }`}
-          />
-        );
-      }).reverse()}
+    <div
+      className="relative flex-shrink-0 rounded-sm overflow-visible"
+      style={{ width: 5, height: 200, background: bg ?? "rgba(0,0,0,0.55)", border: "1px solid rgba(255,255,255,0.05)" }}
+    >
+      <div
+        className="absolute bottom-0 left-0 right-0"
+        style={{ height: `${pct}%`, background: barColor, transition: "height 55ms linear" }}
+      />
+      {peak > DB_MIN + 2 && (
+        <div
+          className="absolute left-0 right-0 h-px"
+          style={{ bottom: `${peakPct}%`, background: barColor }}
+        />
+      )}
     </div>
   );
 };

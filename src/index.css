@@ -7,6 +7,16 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+input, textarea {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
 @layer base {
   :root {
     /* Dark vintage console palette */

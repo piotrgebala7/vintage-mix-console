@@ -5,10 +5,11 @@ interface MixSelectorProps {
 
 export const MixSelector = ({ selectedMix, onSelectMix }: MixSelectorProps) => {
   const mixes = [
-    { id: 0, name: "MIX A", label: "DRUMS" },
-    { id: 1, name: "MIX B", label: "BASS" },
-    { id: 2, name: "MIX C", label: "GUITAR" },
-    { id: 3, name: "MIX D", label: "VOCAL" },
+    { id: 0, name: "MIX A",    label: "DRUMS"   },
+    { id: 1, name: "MIX B",    label: "BASS"    },
+    { id: 2, name: "MIX C",    label: "GUITAR"  },
+    { id: 3, name: "MIX D",    label: "VOCAL"   },
+    { id: 4, name: "MONITOR",  label: "MAIN MIX" },
   ];
 
   return (
@@ -41,6 +42,9 @@ export const MixSelector = ({ selectedMix, onSelectMix }: MixSelectorProps) => {
                 ? "mix-button-active text-white"
                 : "mix-button text-console-beige hover:text-foreground"
             }`}
+            style={mix.id === 4 && selectedMix === mix.id
+              ? { boxShadow: "0 0 10px rgba(200,150,12,0.4), inset 0 1px 0 rgba(255,220,80,0.15)" }
+              : undefined}
           >
             {/* Button highlight */}
             <div className="absolute inset-0 rounded-[3px] overflow-hidden">
@@ -48,7 +52,15 @@ export const MixSelector = ({ selectedMix, onSelectMix }: MixSelectorProps) => {
             </div>
 
             <div className="relative flex flex-col items-center gap-0.5 md:gap-1">
-              <span className={`text-sm md:text-base font-bold ${selectedMix === mix.id ? 'text-glow-green' : ''}`}>
+              <span className={`text-sm md:text-base font-bold ${
+                selectedMix === mix.id
+                  ? mix.id === 4 ? '' : 'text-glow-green'
+                  : ''
+              }`}
+                style={selectedMix === mix.id && mix.id === 4
+                  ? { color: "#f0c040", textShadow: "0 0 8px rgba(200,150,12,0.6)" }
+                  : undefined}
+              >
                 {mix.name}
               </span>
               <span className="text-[8px] md:text-[9px] font-mono tracking-wider opacity-75">
@@ -59,14 +71,20 @@ export const MixSelector = ({ selectedMix, onSelectMix }: MixSelectorProps) => {
             {/* LED indicator */}
             {selectedMix === mix.id && (
               <div
-                className="absolute -top-1 -right-1 w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-console-green led-indicator animate-pulse"
-                style={{ animationDuration: '1.5s' }}
+                className="absolute -top-1 -right-1 w-2 h-2 md:w-2.5 md:h-2.5 rounded-full led-indicator animate-pulse"
+                style={{
+                  animationDuration: '1.5s',
+                  background: mix.id === 4 ? "#c8960c" : undefined,
+                  boxShadow: mix.id === 4 ? "0 0 6px rgba(200,150,12,0.8)" : undefined,
+                }}
               />
             )}
 
             {/* Inner glow when active */}
             {selectedMix === mix.id && (
-              <div className="absolute inset-x-3 top-1 h-0.5 bg-gradient-to-b from-green-300/30 to-transparent rounded-full" />
+              <div className={`absolute inset-x-3 top-1 h-0.5 rounded-full bg-gradient-to-b ${
+                mix.id === 4 ? "from-yellow-300/30" : "from-green-300/30"
+              } to-transparent`} />
             )}
           </button>
         ))}
