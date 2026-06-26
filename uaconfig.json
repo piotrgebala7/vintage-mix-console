@@ -1,0 +1,373 @@
+{
+  "lastSaved" : {
+    "date" : "2025-12-03 20:06:23",
+    "device" : {
+      "appBuildVersion" : 375,
+      "appVersion" : "5.12.3",
+      "device" : "Piotr’s MacBook Pro",
+      "deviceId" : "Mac16,8",
+      "deviceType" : "laptop",
+      "deviceUuid" : "f28ea2432bfe328370b0a92c6e579040168863787a4de1bb9e52e050e21f31ce",
+      "platform" : "macos",
+      "platformVersion" : "macOS Version 15.6.1 (Build 24G90)",
+      "softwareVersion" : "11.7.1"
+    }
+  },
+  "mappings" : {
+    "\/devices\/0\/inputs\/0\/sends\/2\/Bypass\/value" : {
+      "buttonType" : 2,
+      "color" : 127,
+      "isGlobal" : false,
+      "max" : 100,
+      "midiMessage" : {
+        "asStr" : "144 60 127 | IAC Driver Bus 1 | 1756102568 | virtual",
+        "data" : "kDx\/",
+        "midiDeviceInfo" : {
+          "name" : "IAC Driver Bus 1",
+          "srcId" : 1756102568,
+          "virtual" : true
+        },
+        "nr" : 60,
+        "printStr" : "1 NOTE 60",
+        "type" : 144,
+        "velocity" : 127
+      },
+      "min" : 0,
+      "mode" : 0,
+      "path" : "\/devices\/0\/inputs\/0\/sends\/2\/Bypass\/value"
+    },
+    "\/devices\/0\/inputs\/0\/sends\/2\/GainTapered\/value" : {
+      "buttonType" : 0,
+      "color" : 127,
+      "isGlobal" : false,
+      "max" : 100,
+      "midiMessage" : {
+        "asStr" : "176 20 3 | IAC Driver Bus 1 | 1756102568 | virtual",
+        "data" : "sBQD",
+        "midiDeviceInfo" : {
+          "name" : "IAC Driver Bus 1",
+          "srcId" : 1756102568,
+          "virtual" : true
+        },
+        "nr" : 20,
+        "printStr" : "1 CC 20",
+        "type" : 176,
+        "velocity" : 3
+      },
+      "min" : 0,
+      "mode" : 0,
+      "path" : "\/devices\/0\/inputs\/0\/sends\/2\/GainTapered\/value"
+    },
+    "\/devices\/0\/inputs\/0\/sends\/2\/Pan\/value" : {
+      "buttonType" : 0,
+      "color" : 127,
+      "isGlobal" : false,
+      "max" : 100,
+      "midiMessage" : {
+        "asStr" : "176 80 60 | IAC Driver Bus 1 | 1756102568 | virtual",
+        "data" : "sFA8",
+        "midiDeviceInfo" : {
+          "name" : "IAC Driver Bus 1",
+          "srcId" : 1756102568,
+          "virtual" : true
+        },
+        "nr" : 80,
+        "printStr" : "1 CC 80",
+        "type" : 176,
+        "velocity" : 60
+      },
+      "min" : 0,
+      "mode" : 0,
+      "path" : "\/devices\/0\/inputs\/0\/sends\/2\/Pan\/value"
+    },
+    "\/devices\/0\/inputs\/0\/sends\/3\/Bypass\/value" : {
+      "buttonType" : 2,
+      "color" : 127,
+      "isGlobal" : false,
+      "max" : 100,
+      "midiMessage" : {
+        "asStr" : "145 60 127 | IAC Driver Bus 1 | 1756102568 | virtual",
+        "data" : "kTx\/",
+        "midiDeviceInfo" : {
+          "name" : "IAC Driver Bus 1",
+          "srcId" : 1756102568,
+          "virtual" : true
+        },
+        "nr" : 60,
+        "printStr" : "2 NOTE 60",
+        "type" : 145,
+        "velocity" : 127
+      },
+      "min" : 0,
+      "mode" : 0,
+      "path" : "\/devices\/0\/inputs\/0\/sends\/3\/Bypass\/value"
+    },
+    "\/devices\/0\/inputs\/0\/sends\/3\/GainTapered\/value" : {
+      "buttonType" : 0,
+      "color" : 127,
+      "isGlobal" : false,
+      "max" : 100,
+      "midiMessage" : {
+        "asStr" : "177 20 64 | IAC Driver Bus 1 | 1756102568 | virtual",
+        "data" : "sRRA",
+        "midiDeviceInfo" : {
+          "name" : "IAC Driver Bus 1",
+          "srcId" : 1756102568,
+          "virtual" : true
+        },
+        "nr" : 20,
+        "printStr" : "2 CC 20",
+        "type" : 177,
+        "velocity" : 64
+      },
+      "min" : 0,
+      "mode" : 0,
+      "path" : "\/devices\/0\/inputs\/0\/sends\/3\/GainTapered\/value"
+    },
+    "\/devices\/0\/inputs\/0\/sends\/3\/Pan\/value" : {
+      "buttonType" : 0,
+      "color" : 127,
+      "isGlobal" : false,
+      "max" : 100,
+      "midiMessage" : {
+        "asStr" : "177 80 63 | IAC Driver Bus 1 | 1756102568 | virtual",
+        "data" : "sVA\/",
+        "midiDeviceInfo" : {
+          "name" : "IAC Driver Bus 1",
+          "srcId" : 1756102568,
+          "virtual" : true
+        },
+        "nr" : 80,
+        "printStr" : "2 CC 80",
+        "type" : 177,
+        "velocity" : 63
+      },
+      "min" : 0,
+      "mode" : 0,
+      "path" : "\/devices\/0\/inputs\/0\/sends\/3\/Pan\/value"
+    },
+    "\/devices\/0\/inputs\/0\/sends\/4\/Bypass\/value" : {
+      "buttonType" : 2,
+      "color" : 127,
+      "isGlobal" : false,
+      "max" : 100,
+      "midiMessage" : {
+        "asStr" : "146 60 127 | IAC Driver Bus 1 | 1756102568 | virtual",
+        "data" : "kjx\/",
+        "midiDeviceInfo" : {
+          "name" : "IAC Driver Bus 1",
+          "srcId" : 1756102568,
+          "virtual" : true
+        },
+        "nr" : 60,
+        "printStr" : "3 NOTE 60",
+        "type" : 146,
+        "velocity" : 127
+      },
+      "min" : 0,
+      "mode" : 0,
+      "path" : "\/devices\/0\/inputs\/0\/sends\/4\/Bypass\/value"
+    },
+    "\/devices\/0\/inputs\/0\/sends\/4\/GainTapered\/value" : {
+      "buttonType" : 0,
+      "color" : 127,
+      "isGlobal" : false,
+      "max" : 100,
+      "midiMessage" : {
+        "asStr" : "178 20 72 | IAC Driver Bus 1 | 1756102568 | virtual",
+        "data" : "shRI",
+        "midiDeviceInfo" : {
+          "name" : "IAC Driver Bus 1",
+          "srcId" : 1756102568,
+          "virtual" : true
+        },
+        "nr" : 20,
+        "printStr" : "3 CC 20",
+        "type" : 178,
+        "velocity" : 72
+      },
+      "min" : 0,
+      "mode" : 0,
+      "path" : "\/devices\/0\/inputs\/0\/sends\/4\/GainTapered\/value"
+    },
+    "\/devices\/0\/inputs\/0\/sends\/4\/Pan\/value" : {
+      "buttonType" : 0,
+      "color" : 127,
+      "isGlobal" : false,
+      "max" : 100,
+      "midiMessage" : {
+        "asStr" : "178 80 62 | IAC Driver Bus 1 | 1756102568 | virtual",
+        "data" : "slA+",
+        "midiDeviceInfo" : {
+          "name" : "IAC Driver Bus 1",
+          "srcId" : 1756102568,
+          "virtual" : true
+        },
+        "nr" : 80,
+        "printStr" : "3 CC 80",
+        "type" : 178,
+        "velocity" : 62
+      },
+      "min" : 0,
+      "mode" : 0,
+      "path" : "\/devices\/0\/inputs\/0\/sends\/4\/Pan\/value"
+    },
+    "\/devices\/0\/inputs\/0\/sends\/5\/Bypass\/value" : {
+      "buttonType" : 2,
+      "color" : 127,
+      "isGlobal" : false,
+      "max" : 100,
+      "midiMessage" : {
+        "asStr" : "147 60 127 | IAC Driver Bus 1 | 1756102568 | virtual",
+        "data" : "kzx\/",
+        "midiDeviceInfo" : {
+          "name" : "IAC Driver Bus 1",
+          "srcId" : 1756102568,
+          "virtual" : true
+        },
+        "nr" : 60,
+        "printStr" : "4 NOTE 60",
+        "type" : 147,
+        "velocity" : 127
+      },
+      "min" : 0,
+      "mode" : 0,
+      "path" : "\/devices\/0\/inputs\/0\/sends\/5\/Bypass\/value"
+    },
+    "\/devices\/0\/inputs\/0\/sends\/5\/GainTapered\/value" : {
+      "buttonType" : 0,
+      "color" : 127,
+      "isGlobal" : false,
+      "max" : 100,
+      "midiMessage" : {
+        "asStr" : "179 20 80 | IAC Driver Bus 1 | 1756102568 | virtual",
+        "data" : "sxRQ",
+        "midiDeviceInfo" : {
+          "name" : "IAC Driver Bus 1",
+          "srcId" : 1756102568,
+          "virtual" : true
+        },
+        "nr" : 20,
+        "printStr" : "4 CC 20",
+        "type" : 179,
+        "velocity" : 80
+      },
+      "min" : 0,
+      "mode" : 0,
+      "path" : "\/devices\/0\/inputs\/0\/sends\/5\/GainTapered\/value"
+    },
+    "\/devices\/0\/inputs\/0\/sends\/5\/Pan\/value" : {
+      "buttonType" : 0,
+      "color" : 127,
+      "isGlobal" : false,
+      "max" : 100,
+      "midiMessage" : {
+        "asStr" : "179 80 62 | IAC Driver Bus 1 | 1756102568 | virtual",
+        "data" : "s1A+",
+        "midiDeviceInfo" : {
+          "name" : "IAC Driver Bus 1",
+          "srcId" : 1756102568,
+          "virtual" : true
+        },
+        "nr" : 80,
+        "printStr" : "4 CC 80",
+        "type" : 179,
+        "velocity" : 62
+      },
+      "min" : 0,
+      "mode" : 0,
+      "path" : "\/devices\/0\/inputs\/0\/sends\/5\/Pan\/value"
+    },
+    "\/devices\/0\/inputs\/1\/sends\/2\/Bypass\/value" : {
+      "buttonType" : 2,
+      "color" : 127,
+      "isGlobal" : false,
+      "max" : 100,
+      "midiMessage" : {
+        "asStr" : "144 61 127 | IAC Driver Bus 1 | 1756102568 | virtual",
+        "data" : "kD1\/",
+        "midiDeviceInfo" : {
+          "name" : "IAC Driver Bus 1",
+          "srcId" : 1756102568,
+          "virtual" : true
+        },
+        "nr" : 61,
+        "printStr" : "1 NOTE 61",
+        "type" : 144,
+        "velocity" : 127
+      },
+      "min" : 0,
+      "mode" : 0,
+      "path" : "\/devices\/0\/inputs\/1\/sends\/2\/Bypass\/value"
+    },
+    "\/devices\/0\/inputs\/1\/sends\/2\/GainTapered\/value" : {
+      "buttonType" : 0,
+      "color" : 127,
+      "isGlobal" : false,
+      "max" : 100,
+      "midiMessage" : {
+        "asStr" : "176 21 68 | IAC Driver Bus 1 | 1756102568 | virtual",
+        "data" : "sBVE",
+        "midiDeviceInfo" : {
+          "name" : "IAC Driver Bus 1",
+          "srcId" : 1756102568,
+          "virtual" : true
+        },
+        "nr" : 21,
+        "printStr" : "1 CC 21",
+        "type" : 176,
+        "velocity" : 68
+      },
+      "min" : 0,
+      "mode" : 0,
+      "path" : "\/devices\/0\/inputs\/1\/sends\/2\/GainTapered\/value"
+    },
+    "\/devices\/0\/inputs\/1\/sends\/2\/Pan\/value" : {
+      "buttonType" : 0,
+      "color" : 127,
+      "isGlobal" : false,
+      "max" : 100,
+      "midiMessage" : {
+        "asStr" : "176 81 62 | IAC Driver Bus 1 | 1756102568 | virtual",
+        "data" : "sFE+",
+        "midiDeviceInfo" : {
+          "name" : "IAC Driver Bus 1",
+          "srcId" : 1756102568,
+          "virtual" : true
+        },
+        "nr" : 81,
+        "printStr" : "1 CC 81",
+        "type" : 176,
+        "velocity" : 62
+      },
+      "min" : 0,
+      "mode" : 0,
+      "path" : "\/devices\/0\/inputs\/1\/sends\/2\/Pan\/value"
+    },
+    "\/devices\/0\/inputs\/1\/sends\/2\/Bypass\/value" : {
+      "buttonType" : 2,
+      "color" : 127,
+      "isGlobal" : false,
+      "max" : 100,
+      "midiMessage" : {
+        "asStr" : "144 61 127 | IAC Driver Bus 1 | 1756102568 | virtual",
+        "data" : "kD1\/",
+        "midiDeviceInfo" : {
+          "name" : "IAC Driver Bus 1",
+          "srcId" : 1756102568,
+          "virtual" : true
+        },
+        "nr" : 61,
+        "printStr" : "1 NOTE 60",
+        "type" : 144,
+        "velocity" : 127
+      },
+      "min" : 0,
+      "mode" : 0,
+      "path" : "\/devices\/0\/inputs\/0\/sends\/2\/Bypass\/value"
+    }
+},
+  "pluginMappings" : {
+
+  }
+}
